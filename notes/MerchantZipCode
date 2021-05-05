@@ -1,0 +1,41 @@
+mutation {
+  createMerchantZipcode(merchantID: 1, zipcode: 20150) {
+    id
+    merchant {
+      id
+      owner
+    }
+    zipcode
+  }
+}
+
+mutation {
+  deleteMerchantZipcode(id: 1) {
+    id
+  }
+}
+
+query {
+  merchantZipcodesPagination {
+    count
+    list {
+      id
+      merchant {
+        id
+        owner
+      }
+      zipcode
+    }
+  }
+}
+
+query {
+  merchantZipcodes {
+      id
+      merchant {
+        id
+        owner
+      }
+      zipcode
+    }
+}

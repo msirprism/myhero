@@ -1,0 +1,2412 @@
+scalar Upload # this is needed for upload to work
+scalar DateTime
+
+type Query {
+  greeting: String
+  aboutApp: App!
+  users(
+    filter: String
+    type: UserType
+    skip: Int
+    first: Int
+    orderByField: UsersOrderBy
+    orderByDir: orderByDirection
+  ): [User]!
+  usersPagination(
+    filter: String
+    type: UserType
+    skip: Int
+    first: Int
+    orderByField: UsersOrderBy
+    orderByDir: orderByDirection
+  ): Users!
+  user(id: Int!): User!
+  user_by_email(email: String!): User!
+  usersByDate(createdAt: DateTime!): [User]!
+  categories(
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: CategoriesOrderBy
+    orderByDir: orderByDirection
+  ): [Category]!
+  categoriesPagination(
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: CategoriesOrderBy
+    orderByDir: orderByDirection
+  ): Categories!
+
+  localities(
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: LocalitiesOrderBy
+    orderByDir: orderByDirection
+  ): [Locality]!
+
+  localitiesPagination(
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: LocalitiesOrderBy
+    orderByDir: orderByDirection
+  ): Localities!
+  
+  merchants(
+    filter: String
+    category: Int
+    locality: String
+    customerLat: Float
+    customerLng: Float
+    isPopular: Boolean
+    status: RestoStatus
+    active: Boolean
+    isTrending: Boolean
+    skip: Int
+    first: Int
+    remainingPayables: Float
+    orderByField: MerchantsOrderBy
+    orderByDir: orderByDirection
+  ): [Merchant]!
+  merchantByUserId(user: Int!): Merchant!
+  merchantsPagination(
+    filter: String
+    category: Int
+    locality: String
+    isPopular: Boolean
+    status: RestoStatus
+    active: Boolean
+    isTrending: Boolean
+    skip: Int
+    first: Int
+    remainingPayables: Float
+    orderByField: MerchantsOrderBy
+    orderByDir: orderByDirection
+  ): Merchants!
+  merchant(id: Int!, customerLat: Float, customerLng: Float): Merchant!
+  merchantOperationTime(id: Int!): Merchant!
+  expenses(
+    name: String
+    startDate: DateTime
+    endDate: DateTime
+    skip: Int
+    first: Int
+    orderByField: ExpensesOrderBy
+    orderByDir: orderByDirection
+  ): [Expense]!
+  expensesPagination(
+    name: String
+    startDate: DateTime
+    endDate: DateTime
+    skip: Int
+    first: Int
+    orderByField: ExpensesOrderBy
+    orderByDir: orderByDirection
+  ): Expenses!
+  expense(id: Int!): Expense!
+  tags(
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: TagsOrderBy
+    orderByDir: orderByDirection
+  ): [Tag]!
+  tagsPagination(
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: TagsOrderBy
+    orderByDir: orderByDirection
+  ): Tags!
+  tag(id: Int!): Tag!
+  merchantTags(
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: MerchantTagsOrderBy
+    orderByDir: orderByDirection
+  ): [MerchantTag]!
+  merchantTagsPagination(
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: MerchantTagsOrderBy
+    orderByDir: orderByDirection
+  ): MerchantTags!
+  merchantTag(id: Int!): MerchantTag!
+  merchantCategories(
+    category: Int!
+    customerLat: Float
+    customerLng: Float
+    status: RestoStatus
+    active: Boolean
+    isTrending: Boolean
+    skip: Int
+    first: Int
+    orderByField: MerchantTagsOrderBy
+    orderByDir: orderByDirection
+  ): [MerchantCategory]!
+  merchantCategoriesPagination(
+    category: Int!
+    status: RestoStatus
+    active: Boolean
+    isTrending: Boolean
+    skip: Int
+    first: Int
+    orderByField: MerchantTagsOrderBy
+    orderByDir: orderByDirection
+  ): MerchantCategories!
+  merchantCategory(id: Int!): MerchantCategory!
+  merchantLocalities(
+    merchant: Int
+    locality: String
+    skip: Int
+    first: Int
+    orderByField: MerchantLocalitiesOrderBy
+    orderByDir: orderByDirection
+  ): [MerchantLocality]!
+  merchantLocalitiesPagination(
+    merchant: Int
+    locality: String
+    skip: Int
+    first: Int
+    orderByField: MerchantLocalitiesOrderBy
+    orderByDir: orderByDirection
+  ): MerchantLocalities!
+  merchantLocality(id: Int!): MerchantLocality!
+  merchantProductCategories(
+    merchant: Int!
+    name: String
+    skip: Int
+    first: Int
+    orderByField: MerchantProductCategoriesOrderBy
+    orderByDir: orderByDirection
+  ): [MerchantProductCategory]!
+  merchantProductCategoriesPagination(
+    merchant: Int!
+    name: String
+    skip: Int
+    first: Int
+    orderByField: MerchantProductCategoriesOrderBy
+    orderByDir: orderByDirection
+  ): MerchantProductCategories!
+  merchantProductCategory(id: Int!): MerchantProductCategory!
+  merchantProductSizes(
+    merchant: Int!
+    name: String
+    skip: Int
+    first: Int
+    orderByField: MerchantProductSizesOrderBy
+    orderByDir: orderByDirection
+  ): [MerchantProductSize]!
+  merchantProductSizesPagination(
+    merchant: Int!
+    name: String
+    skip: Int
+    first: Int
+    orderByField: MerchantProductSizesOrderBy
+    orderByDir: orderByDirection
+  ): MerchantProductSizes!
+  merchantProductSize(id: Int!): MerchantProductSize!
+  productCategories(
+    merchant: Int!
+    merchantProductCategories: [Int]
+    notInMerchantProductCategories: [Int]
+    productName: String
+    skip: Int
+    first: Int
+    orderByField: ProductCategoriesOrderBy
+    orderByDir: orderByDirection
+  ): [ProductCategory]!
+  productCategoriesPagination(
+    merchant: Int!
+    merchantProductCategories: [Int]
+    notInMerchantProductCategories: [Int]
+    productName: String
+    skip: Int
+    first: Int
+    orderByField: ProductCategoriesOrderBy
+    orderByDir: orderByDirection
+  ): ProductCategories!
+  productCategory(id: Int!): ProductCategory!
+  addons(
+    merchant: Int!
+    name: String
+    skip: Int
+    first: Int
+    orderByField: AddonsOrderBy
+    orderByDir: orderByDirection
+  ): [Addon]!
+  addonsPagination(
+    merchant: Int!
+    name: String
+    skip: Int
+    first: Int
+    orderByField: AddonsOrderBy
+    orderByDir: orderByDirection
+  ): Addons!
+  addon(id: Int!): Addon!
+  productAddons(
+    merchant: Int
+    product: Int
+    addons: [Int]
+    isAvailable: Boolean
+    active: Boolean
+    skip: Int
+    first: Int
+    orderByField: ProductAddonsOrderBy
+    orderByDir: orderByDirection
+  ): [ProductAddon]!
+  productAddonsPagination(
+    merchant: Int
+    product: Int
+    addons: [Int]
+    isAvailable: Boolean
+    active: Boolean
+    skip: Int
+    first: Int
+    orderByField: ProductAddonsOrderBy
+    orderByDir: orderByDirection
+  ): ProductAddons!
+  productAddon(id: Int!): ProductAddon!
+  products(
+    filter: String
+    merchant: Int
+    notInMerchantProductCategories: [Int]
+    notInAddons: [Int]
+    notInMerchantProductSizes: [Int]
+    isAvailable: Boolean
+    skip: Int
+    first: Int
+    orderByField: ProductsOrderBy
+    orderByDir: orderByDirection
+  ): [Product]!
+  productsByMerchant(
+    merchantID: Int!
+    merchantProductCategories: [Int]
+    productName: String
+    skip: Int
+    first: Int
+    orderByField: ProductsOrderBy
+    orderByDir: orderByDirection
+  ): [Product]!
+  productsByMerchantPagination(
+    merchantID: Int!
+    merchantProductCategories: [Int]
+    productName: String
+    skip: Int
+    first: Int
+    orderByField: ProductsOrderBy
+    orderByDir: orderByDirection
+  ): Products!
+  productsPagination(
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: ProductsOrderBy
+    orderByDir: orderByDirection
+  ): Products!
+  product(id: Int!): Product!
+  productSizes(
+    merchantProductSize: Int
+    merchantProductSizes: [Int]
+    product: Int
+    isAvailable: Boolean
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: ProductSizesOrderBy
+    orderByDir: orderByDirection
+  ): [ProductSize]!
+  productSizesPagination(
+    merchantProductSize: Int
+    merchantProductSizes: [Int]
+    product: Int
+    isAvailable: Boolean
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: ProductSizesOrderBy
+    orderByDir: orderByDirection
+  ): ProductSizes!
+  productSize(id: Int!): ProductSize
+  heroes(
+    filter: String
+    skip: Int
+    first: Int
+    active: Boolean
+    isAvailable: Boolean
+    remainingCollectibles: Float
+    orderByField: HeroesOrderBy
+    orderByDir: orderByDirection
+  ): [Hero]!
+  heroesPagination(
+    filter: String
+    skip: Int
+    first: Int
+    active: Boolean
+    isAvailable: Boolean
+    remainingCollectibles: Float
+    orderByField: HeroesOrderBy
+    orderByDir: orderByDirection
+  ): Heroes!
+  hero(id: Int!): Hero!
+  heroByCode(code: String!): Hero
+  heroGalleries(
+    filter: String
+    skip: Int
+    first: Int
+    orderBy: HeroGalleriesOrderByInput
+  ): [HeroGallery]!
+  heroGalleriesPagination(
+    filter: String
+    skip: Int
+    first: Int
+    orderBy: HeroGalleriesOrderByInput
+  ): HeroGalleries!
+  heroGallery(id: Int!): HeroGallery!
+  couponStatuses(
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: CouponStatusOrderBy
+    orderByDir: orderByDirection
+  ): [CouponStatus]!
+  couponStatusesPagination(
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: CouponStatusOrderBy
+    orderByDir: orderByDirection
+  ): CouponStatus!
+  couponStatus(id: Int!): CouponStatus!
+  couponTypes(
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: CouponTypesOrderBy
+    orderByDir: orderByDirection
+  ): [CouponType]!
+  couponTypesPagination(
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: CouponTypesOrderBy
+    orderByDir: orderByDirection
+  ): CouponType!
+  couponType(id: Int!): CouponType!
+  coupons(
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: CouponsOrderBy
+    orderByDir: orderByDirection
+  ): [Coupon]!
+  couponsPagination(
+    skip: Int
+    first: Int
+    orderByField: CouponsOrderBy
+    orderByDir: orderByDirection
+  ): Coupons!
+  coupon(id: Int!): Coupon!
+  couponByCode(code: String!): Coupon!
+  localityByName(name: String!): Locality!
+  validCouponByCode(code: String!, merchantId: Int!, locality: String!): Coupon!
+  couponLocality(id: Int!): CouponLocality!
+  couponLocalityByCouponId(coupon: Int!): CouponLocality!
+  couponLocalities(
+    coupon: Int
+    locality: String
+    skip: Int
+    first: Int
+    orderByField: CouponLocalitiesOrderBy
+    orderByDir: orderByDirection
+  ): [CouponLocality]!
+
+  couponLocalitiesPagination(
+    coupon: Int
+    locality: String
+    skip: Int
+    first: Int
+    orderByField: CouponLocalitiesOrderBy
+    orderByDir: orderByDirection
+  ): CouponLocalities!
+
+  deliveryCounter(id: Int!): DeliveryCounter!
+  deliveryCounters(
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: DeliveryCountersOrderBy
+    orderByDir: orderByDirection
+  ): [DeliveryCounter]!
+
+  errand(id: Int!): Errand!
+  errands(
+    filter: String
+    customerID: Int
+    skip: Int
+    first: Int
+    orderByField: OrdersOrderBy
+    orderByDir: orderByDirection
+  ): [Errand]!
+  errandsPagination(
+    filter: String
+    heroID: Int
+    customerID: Int
+    createdAt: DateTime
+    updatedAt: DateTime
+    skip: Int
+    first: Int
+    orderByField: ErrandsOrderBy
+    orderByDir: orderByDirection
+  ): Errands!
+  
+  orderStatuses(
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: OrderStatusOrderBy
+    orderByDir: orderByDirection
+  ): [OrderStatus]!
+  orderStatusesPagination(
+    filter: String
+    skip: Int
+    first: Int
+    orderByField: OrderStatusOrderBy
+    orderByDir: orderByDirection
+  ): OrderStatus!
+  orderStatus(id: Int!): OrderStatus!
+  order(id: Int!): Order!
+  orders(
+    filter: String
+    orderStatuses: [Int]
+    customerID: Int
+    skip: Int
+    first: Int
+    orderByField: OrdersOrderBy
+    orderByDir: orderByDirection
+  ): [Order]!
+  ordersPagination(
+    filter: String
+    merchantID: Int
+    heroID: Int
+    customerID: Int
+    createdAt: DateTime
+    updatedAt: DateTime
+    orderStatus: Int
+    orderStatuses: [Int]
+    skip: Int
+    first: Int
+    orderByField: OrdersOrderBy
+    orderByDir: orderByDirection
+  ): Orders!
+  ordersByMerchant(
+    merchantID: Int!
+    orderStatus: Int
+    orderStatuses: [Int]
+    createdAt: DateTime
+    skip: Int
+    first: Int
+    orderByField: OrdersOrderBy
+    orderByDir: orderByDirection
+  ): [Order]!
+  ordersByMerchantPagination(
+    merchantID: Int!
+    orderStatus: Int
+    orderStatuses: [Int]
+    createdAt: DateTime
+    skip: Int
+    first: Int
+    orderByField: OrdersOrderBy
+    orderByDir: orderByDirection
+  ): Orders!
+  ordersByHero(
+    heroID: Int!
+    orderStatus: Int
+    orderStatuses: [Int]
+    createdAt: DateTime
+    skip: Int
+    first: Int
+    orderByField: OrdersOrderBy
+    orderByDir: orderByDirection
+  ): [Order]!
+  ordersByHeroPagination(
+    heroID: Int!
+    orderStatus: Int
+    orderStatuses: [Int]
+    createdAt: DateTime
+    skip: Int
+    first: Int
+    orderByField: OrdersOrderBy
+    orderByDir: orderByDirection
+  ): Orders!
+  ordersForCron: [Order]
+  orderProduct(id: Int!): OrderProduct!
+  orderProducts(
+    order: Int
+    skip: Int
+    first: Int
+    orderByField: OrderProductOrderBy
+    orderByDir: orderByDirection
+  ): [OrderProduct]!
+  orderProductsPagination(
+    filter: String
+    skip: Int
+    first: Int
+    orderBy: OrderProductsOrderByInput
+  ): OrderProducts!
+  transaksyon(id: Int!): Transaksyon!
+  transaksyons(
+    filter: String
+    skip: Int
+    first: Int
+    orderBy: TransaksyonsOrderByInput
+  ): [Transaksyon]!
+  transaksyonsPagination(
+    filter: String
+    skip: Int
+    first: Int
+    orderBy: TransaksyonsOrderByInput
+  ): Transaksyons!
+  transaksyonsOfOrder(
+    order: String!
+    skip: Int
+    first: Int
+    orderBy: TransaksyonsOrderByInput
+  ): [Transaksyon]!
+  transaksyonsOfOrderPagination(
+    order: String!
+    skip: Int
+    first: Int
+    orderBy: TransaksyonsOrderByInput
+  ): Transaksyons!
+  heroAnalytic(hero: String!, createdAt: DateTime!): HeroAnalytic!
+  paidPayablesOfMerchant(
+    merchant: Int!
+    skip: Int
+    first: Int
+    orderByField: PaidPayablesOrderBy
+    orderByDir: orderByDirection
+  ): PaidPayables!
+  paidCollectiblesOfHero(
+    hero: Int!
+    skip: Int
+    first: Int
+    orderByField: PaidCollectiblesOrderBy
+    orderByDir: orderByDirection
+  ): PaidCollectibles!
+  costing(id: Int!): Costing!
+  getDeliveryFee(km: Float!): Float!
+  analytic(startDate: DateTime!, endDate: DateTime!): Analytic!
+  percent(id: Int!): Percent!
+  popularMerchants(
+    filter: String
+    locality: String
+    customerLat: Float
+    customerLng: Float
+    status: RestoStatus
+    active: Boolean
+    isTrending: Boolean
+    skip: Int
+    first: Int
+    orderByField: MerchantsOrderBy
+    orderByDir: orderByDirection
+  ): [Merchant]!
+  popularMerchantsPagination(
+    filter: String
+    status: RestoStatus
+    active: Boolean
+    isTrending: Boolean
+    skip: Int
+    first: Int
+    orderByField: MerchantsOrderBy
+    orderByDir: orderByDirection
+  ): Merchants!
+  trendingMerchants(
+    filter: String
+    locality: String
+    customerLat: Float
+    customerLng: Float
+    status: RestoStatus
+    active: Boolean
+    skip: Int
+    first: Int
+    orderByField: MerchantsOrderBy
+    orderByDir: orderByDirection
+  ): [Merchant]!
+  trendingMerchantsPagination(
+    filter: String
+    status: RestoStatus
+    active: Boolean
+    skip: Int
+    first: Int
+    orderByField: MerchantsOrderBy
+    orderByDir: orderByDirection
+  ): Merchants!
+  riderReviewsPagination(
+    skip: Int
+    first: Int
+    orderByField: RiderReviewsOrderBy
+    orderByDir: orderByDirection
+  ): RiderReviews!
+  riderReview(id: Int!): RiderReview!
+}
+
+type Mutation {
+  signup(
+    contactNumber: String!
+    email: String
+    password: String!
+    name: String!
+    type: UserType
+    validIdImg: Upload
+  ): AuthPayload
+  login(emailOrPhone: String, email: String, password: String!): AuthPayload
+  changePassword(id: Int!, oldPassword: String!, newPassword: String!): User!
+  changeForgottenPassword(otpCode: String!, confirmPassword: String!, newPassword: String!): User!
+  singleUpload(file: Upload!): File!
+  updateUser(
+    id: Int!
+    name: String
+    email: String
+    contactNumber: String
+    type: UserType
+    status: UserStatus
+    active: Boolean
+  ): User!
+  deleteUser(id: Int!): User!
+  createUserMerchant(
+    name: String
+    email: String
+    password: String!
+    contactNumber: String
+    active: Boolean
+    photo: Upload
+    owner: String!
+    myHeroShare: Int
+    myHeroFreeDeliveryShare: Float
+    isElite: Boolean
+    isTrending: Boolean
+    trendingFlatRate: Float
+    trendingAppFee: Float
+    trendingPhoto: Upload
+    riderShare: Float
+    havePermit: Boolean
+    adminCollections: Float
+    adminEarnings: Float
+    adminRemittanceToMerchant: Float
+    adminPaidPayables: Float
+    adminRemainingPayables: Float
+    address: String
+    lat: Float!
+    lng: Float!
+    businessPermitNo: String
+    status: RestoStatus
+    city: String
+    minimumSpend: Float
+  ): User!
+  createMerchantUser(
+    name: String
+    email: String
+    password: String!
+    contactNumber: String
+    active: Boolean
+    photo: Upload
+    ownerPhoto: Upload
+    category: Int!
+    owner: String!
+    myHeroShare: Int
+    myHeroFreeDeliveryShare: Float
+    isElite: Boolean
+    isTrending: Boolean
+    trendingFlatRate: Float
+    trendingAppFee: Float
+    trendingPhoto: Upload
+    riderShare: Float
+    havePermit: Boolean
+    adminCollections: Float
+    adminEarnings: Float
+    adminRemittanceToMerchant: Float
+    adminPaidPayables: Float
+    adminRemainingPayables: Float
+    address: String
+    lat: Float!
+    lng: Float!
+    businessPermitNo: String
+    status: RestoStatus
+    city: String
+    minimumSpend: Float
+  ): Merchant!
+  updateMerchantUser(
+    userID: Int!
+    name: String
+    email: String
+    password: String
+    contactNumber: String
+    active: Boolean
+    photo: Upload
+    ownerPhoto: Upload
+    category: Int
+    owner: String
+    myHeroShare: Int
+    myHeroFreeDeliveryShare: Float
+    isElite: Boolean
+    havePermit: Boolean
+    adminCollections: Float
+    adminEarnings: Float
+    adminRemittanceToMerchant: Float
+    adminPaidPayables: Float
+    adminRemainingPayables: Float
+    address: String
+    lat: Float
+    lng: Float
+    businessPermitNo: String
+    status: RestoStatus
+    city: String
+    minimumSpend: Float
+    isTrending: Boolean
+    trendingFlatRate: Float
+    trendingAppFee: Float
+    trendingPhoto: Upload
+    riderShare: Float
+  ): Merchant!
+  createUserHero(
+    name: String
+    email: String
+    password: String!
+    contactNumber: String
+    active: Boolean
+    photo: Upload
+    sex: SexOption
+    birthday: DateTime!
+    nbiNo: String
+    policeClearanceNo: String
+    plateNo: String
+    licenseNo: String
+    city: String
+    isAvailable: Boolean
+  ): User!
+  createHeroUser(
+    name: String
+    email: String
+    password: String!
+    contactNumber: String
+    active: Boolean
+    photo: Upload
+    heroRole: HeroRoleOption
+    sex: SexOption
+    birthday: DateTime!
+    nbiNo: String
+    policeClearanceNo: String
+    plateNo: String
+    licenseNo: String
+    city: String
+    locality: String
+    isAvailable: Boolean
+  ): Hero!
+  updateHeroUser(
+    userID: Int!
+    name: String
+    email: String
+    password: String
+    contactNumber: String
+    active: Boolean
+    photo: Upload
+    heroRole: HeroRoleOption
+    sex: SexOption
+    birthday: DateTime
+    nbiNo: String
+    policeClearanceNo: String
+    plateNo: String
+    licenseNo: String
+    city: String
+    locality: String
+    isAvailable: Boolean
+  ): Hero!
+  setHeroAvailability(id: Int!, isAvailable: Boolean!, lat: Float, lng: Float): Hero
+  setHeroOnline(id: Int!, lat: Float, lng: Float): Hero
+  createCategory(name: String!): Category!
+  updateCategory(id: Int!, name: String!): Category!
+  deleteCategory(id: Int!): Category!
+  createLocality(name: String!, riderSystem: String, radiusLimitKm: Float, active: Boolean): Locality!
+  updateLocality(id: Int!, name: String!, riderSystem: String, radiusLimitKm: Float, active: Boolean): Locality!
+  deleteLocality(id: Int!): Locality!
+  createMerchant(
+    user_merchantTouser: Int!
+    owner: String!
+    myHeroShare: Int
+    myHeroFreeDeliveryShare: Float
+    isElite: Boolean
+    isTrending: Boolean
+    trendingFlatRate: Float
+    trendingAppFee: Float
+    trendingPhoto: Upload
+    riderShare: Float
+    havePermit: Boolean
+    adminCollections: Float
+    adminEarnings: Float
+    adminRemittanceToMerchant: Float
+    adminPaidPayables: Float
+    adminRemainingPayables: Float
+    address: String
+    lat: Float!
+    lng: Float!
+    businessPermitNo: String
+    active: Boolean
+    status: RestoStatus
+    city: String
+    minimumSpend: Float
+  ): Merchant
+  updateMerchant(
+    id: Int!
+    user_merchantTouser: Int
+    owner: String
+    myHeroShare: Int
+    myHeroFreeDeliveryShare: Float
+    isElite: Boolean
+    havePermit: Boolean
+    adminCollections: Float
+    adminEarnings: Float
+    adminRemittanceToMerchant: Float
+    adminPaidPayables: Float
+    adminRemainingPayables: Float
+    address: String
+    lat: Float
+    lng: Float
+    businessPermitNo: String
+    active: Boolean
+    status: RestoStatus
+    city: String
+    isPopular: Boolean
+    isTrending: Boolean
+    trendingFlatRate: Float
+    trendingAppFee: Float
+    trendingPhoto: Upload
+    riderShare: Float
+  ): Merchant
+  updateMerchantSchedule(
+    id: Int!
+    schedules: [MerchantSchedule]
+  ): Merchant
+  deleteMerchant(id: Int!): Merchant
+  createTag(name: String!): Tag!
+  updateTag(id: Int!, name: String!): Tag!
+  deleteTag(id: Int!): Tag!
+  createMerchantTag(
+    merchant_merchantTomerchantTag: Int!
+    tag_merchantTagTotag: Int!
+  ): MerchantTag!
+  updateMerchantTag(
+    id: Int!
+    merchant_merchantTomerchantTag: Int!
+    tag_merchantTagTotag: Int!
+  ): MerchantTag!
+  deleteMerchantTag(id: Int!): MerchantTag!
+  createMerchantCategory(
+    merchant_merchantTomerchantCategory: Int!
+    category_categoryTomerchantCategory: Int!
+  ): MerchantCategory!
+  updateMerchantCategory(
+    id: Int!
+    merchant_merchantTomerchantCategory: Int!
+    category_categoryTomerchantCategory: Int!
+  ): MerchantCategory!
+  deleteMerchantCategory(id: Int!): MerchantCategory!
+  createCouponStatus(name: String!): CouponStatus!
+  updateCouponStatus(id: Int!, name: String!): CouponStatus!
+  deleteCouponStatus(id: Int!): CouponStatus!
+  createCouponType(name: String!): CouponType!
+  updateCouponType(id: Int!, name: String!): CouponType!
+  deleteCouponType(id: Int!): CouponType!
+  createCoupon(
+    couponType: Int
+    couponStatus: Int
+    merchant: Int
+    code: String!
+    name: String!
+    active: Boolean
+    discount: Int
+    fixedDeduction: Int
+    usageLimit: Int
+    minimumSpend: Float
+    numberOfUse: Int
+    hasExpiry: Boolean
+    expiry: DateTime!
+  ): Coupon!
+  updateCoupon(
+    id: Int!
+    couponType: Int
+    couponStatus: Int
+    merchant: Int
+    code: String!
+    name: String!
+    active: Boolean
+    discount: Int
+    fixedDeduction: Int
+    usageLimit: Int
+    minimumSpend: Float
+    numberOfUse: Int
+    hasExpiry: Boolean
+    expiry: DateTime!
+  ): Coupon!
+  deleteCoupon(id: Int!): Coupon!
+  createCouponLocality(couponID: Int!, locality: String!): CouponLocality!
+  deleteCouponLocality(id: Int!): CouponLocality
+ 
+  createErrand(
+    user: Int!
+    hero: Int
+    heroCode: String
+    address: String
+    landmark: String
+    message: String
+    errandsFee: Float
+    distance: Float
+    customerLat: Float
+    customerLng: Float
+    receiverFullName: String
+    receiverContactNumber: String
+  ): Errand!
+  updateErrand(
+    id: Int!
+    user: Int
+    hero: Int
+    heroCode: String
+    address: String
+    landmark: String
+    message: String
+    errandsFee: Float
+    distance: Float
+    customerLat: Float
+    customerLng: Float
+    receiverFullName: String
+    receiverContactNumber: String
+  ): Errand!
+  deleteErrand(id: Int!): Errand!
+  createProduct(
+    merchant_merchantToproduct: Int!
+    name: String!
+    price: Float
+    description: String
+    isAvailable: Boolean
+    promo: Float
+    rating: Int
+    markUpPrice: Float
+    addonType: AddonType
+    hasSugarLevel: Boolean
+    estPrepTime: Float
+  ): Product
+  updateProduct(
+    id: Int!
+    merchant_merchantToproduct: Int
+    name: String
+    price: Float
+    description: String
+    isAvailable: Boolean
+    promo: Float
+    rating: Int
+    active: Boolean
+    markUpPrice: Float
+    addonType: AddonType
+    hasSugarLevel: Boolean
+    estPrepTime: Float
+  ): Product
+  deleteProduct(id: Int!): Product
+  updateProductAvailability(
+    id: Int!
+    isAvailable: Boolean
+  ): Product
+  updateProductActiveStatus(
+    id: Int!
+    active: Boolean
+  ): Product
+  createProductSize(
+    merchantProductSize: Int!
+    product: Int!
+    price: Float
+  ): ProductSize
+  updateProductSize(
+    id: Int!
+    price: Float
+    isAvailable: Boolean!
+    active: Boolean
+  ): ProductSize
+  deleteProductSize(id: Int!): ProductSize
+  createHero(
+    user_heroTouser: Int!
+    heroRole: HeroRoleOption
+    sex: SexOption
+    birthday: DateTime!
+    nbiNo: String
+    policeClearanceNo: String
+    plateNo: String
+    licenseNo: String
+    city: String
+    isAvailable: Boolean
+  ): Hero
+  updateHero(
+    id: Int!
+    user_heroTouser: Int
+    heroRole: HeroRoleOption
+    sex: SexOption
+    birthday: DateTime
+    nbiNo: String
+    policeClearanceNo: String
+    plateNo: String
+    licenseNo: String
+    city: String
+    isAvailable: Boolean
+  ): Hero
+  uploadHeroGallery(hero: String!, photo: Upload!): HeroGallery!
+  deleteHeroGallery(id: Int!): HeroGallery
+  createOrderStatus(name: String!): OrderStatus!
+  updateOrderStatus(id: Int!, name: String!): OrderStatus!
+  deleteOrderStatus(id: Int!): OrderStatus!
+  createOrder(
+    user: Int!
+    merchant: Int!
+    couponCode: String
+    isForSomeone: Boolean
+    receiverFullName: String
+    receiverContactNumber: String
+    address: String
+    landmark: String
+    customerLat: Float
+    customerLng: Float
+    isTrending: Boolean
+    customerRequest: String
+    locality: String
+    total: Float!
+    deliveryFee: Float!
+    excessDeliveryFee: Float
+    trendingDeliveryFee: Float
+    merchantToCustomerKm: Float
+    orderProducts: [OrderProductCreateInput]!
+    heroCode: String
+  ): Order!
+  updateOrder(
+    id: Int!
+    orderProducts: [OrderProductEditInput]!
+  ): Order!
+  deleteOrder(id: Int!): Order!
+  updateStatusOfOrder(
+    id: Int!
+    status: Int!
+    loggedInHero: Int
+    isManualCancelByHero: Boolean
+  ): Order!
+  transferOrderToNewHero(id: Int!, hero: Int!): Order!
+  passOrderToNextHero: CronMessage
+  payPayable(merchant: Int!, amount: Float!): PaidPayable!
+  payCollectible(hero: Int!, amount: Float!): PaidCollectible!
+  deletePaidPayable(id: Int!): PaidPayable
+  deletePaidCollectible(id: Int!): PaidCollectible
+  createOrderProduct(
+    order: String!
+    product: String!
+    price: Float!
+    quantity: Float!
+    subtotal: Float!
+  ): OrderProduct!
+  updateOrderProduct(
+    id: Int!
+    order: String
+    product: String
+    price: Float
+    quantity: Float
+    subtotal: Float
+  ): OrderProduct!
+  deleteOrderProduct(id: Int!): OrderProduct!
+  addOrderProducts(orderId: Int!, selectedOrderProducts: [OrderProductUpdateInput!]!): Order!
+  addOrderAddons(orderId: Int!, selectedOrderAddons: [OrderAddonUpdateInput!]!): Order!
+  updateOrderProducts(orderId: Int!, selectedOrderProducts: [OrderProductUpdateInput!]!): Order!
+  updateOrderAddons(orderId: Int!, selectedOrderAddons: [OrderAddonUpdateInput!]!): Order!
+  seenOrders(orderIds: [Int!]!): [Order]!
+  uploadUserPhoto(id: Int!, photo: Upload!): User!
+  uploadUserValidIdImg(id: Int!, photo: Upload!): User!
+  uploadMerchantPhoto(id: Int!, photo: Upload!): Merchant!
+  uploadMerchantTrendingPhoto(id: Int!, photo: Upload!): Merchant!
+  uploadProductPhoto(id: Int!, photo: Upload!): Product!
+  uploadExpensePhoto(id: Int!, photo: Upload!): Expense!
+  uploadHeroNbi(id: Int!, photo: Upload!): Hero!
+  uploadHeroPoliceClearance(id: Int!, photo: Upload!): Hero!
+  uploadHeroPlateNo(id: Int!, photo: Upload!): Hero!
+  uploadHeroDrivingLicense(id: Int!, photo: Upload!): Hero!
+  createCosting(
+    firstKmCost: Float!
+    excessPerKmCost: Float!
+    appFee: Float!
+    errandsFlatRate: Float!
+    errandsAppFee: Float!
+    errandsExcessPerKmCost: Float!
+  ): Costing!
+  updateCosting(
+    id: Int!
+    firstKmCost: Float!
+    excessPerKmCost: Float!
+    appFee: Float!
+    errandsFlatRate: Float!
+    errandsAppFee: Float!
+    errandsExcessPerKmCost: Float!
+  ): Costing!
+  createExpense(
+    name: String!
+    amount: Float!
+    expenseDate: DateTime!
+    photo: Upload
+  ): Expense!
+  updateExpense(
+    id: Int!
+    name: String
+    amount: Float
+    expenseDate: DateTime
+    photo: Upload
+  ): Expense!
+  deleteExpense(id: Int!): Expense
+  createMerchantLocality(merchantID: Int!, locality: String!): MerchantLocality!
+  deleteMerchantLocality(id: Int!): MerchantLocality
+  createMerchantProductCategory(merchantID: Int!, name: String!): MerchantProductCategory!
+  updateMerchantProductCategory(id: Int!, name: String): MerchantProductCategory!
+  deleteMerchantProductCategory(id: Int!): MerchantProductCategory
+  createMerchantProductSize(merchantID: Int!, name: String!, price: Float, markUpPrice: Float, active: Boolean): MerchantProductSize!
+  updateMerchantProductSize(id: Int!, name: String!, price: Float, markUpPrice: Float, active: Boolean): MerchantProductSize!
+  deleteMerchantProductSize(id: Int!): MerchantProductSize
+  createAddon(merchantID: Int!, name: String!, price: Float!, markUpPrice: Float, onlyOnePerProduct: Boolean, maxPieces: Int): Addon!
+  updateAddon(id: Int!, name: String!, price: Float!, markUpPrice: Float, onlyOnePerProduct: Boolean!, maxPieces: Int, active: Boolean!, isAvailable: Boolean!): Addon!
+  deleteAddon(id: Int!): Addon
+  createProductCategory(merchantID: Int!, merchantProductCategoryID: Int!, productID: Int!): ProductCategory!
+  updateProductCategory(id: Int!, productID: Int, merchantProductCategoryID: Int): ProductCategory!
+  deleteProductCategory(id: Int!): ProductCategory
+  createProductAddon(merchantID: Int!, productID: Int!, addonID: Int!): ProductAddon!
+  updateProductAddon(id: Int!, productID: Int, addonID: Int): ProductAddon!
+  deleteProductAddon(id: Int!): ProductAddon
+  createRiderReview(
+    user: Int
+    hero: Int
+    merchant: Int
+    order: Int
+    rating: Float!
+    review: String
+  ): RiderReview!
+  callEmergency(hero: Int!): Hero!
+  reloadMobileUI: CronMessage
+  refreshUI: Quote
+  updateApp(appEnv: String!, androidVersion: String!, appleVersion: String!): App
+  autoMerchantConfirmed(limit: Int): [Order]
+  updateFirebaseToken(id: Int!, firebaseToken: String!): User!
+  sendPush(registrationToken: String!, title: String!, body: String!): String
+  campHere(heroId: Int!, lat: Float!, lng: Float!): Hero!
+  computeMerchantToHeroKm(merchantLat: Float!, merchantLng: Float!, heroLat: Float!, heroLng: Float!): Float
+}
+
+type AuthPayload {
+  token: String
+  user: User
+}
+
+type User {
+  id: Int!
+  name: String!
+  email: String
+  contactNumber: String!
+  type: UserType
+  otpCode: String
+  merchant: Merchant
+  active: Boolean @deprecated(reason: "Field is deprecated!")
+  status: UserStatus
+  child_id: Int
+  photo: String
+  validIdImg: String
+  firebaseToken: String
+  hero: Hero
+  orders: [Order]
+  errands: [Order]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Category {
+  id: Int!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  merchants: [Merchant]
+  merchantCategories: [MerchantCategory]
+}
+
+type Locality {
+  id: Int!
+  name: String!
+  riderSystem: String
+  radiusLimitKm: Float
+  active: Boolean
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  merchants: [Merchant]
+  merchantLocalities: [MerchantLocality]
+}
+
+type Localities {
+  list: [Locality!]!
+  count: Int!
+}
+
+type Merchant {
+  id: Int!
+  user: User
+  branch: Branch
+  name: String
+  owner: String!
+  myHeroShare: Int
+  myHeroFreeDeliveryShare: Float
+  havePermit: Boolean
+  businessPermitNo: String
+  address: String
+  lat: Float
+  lng: Float
+  isElite: Boolean
+  city: String
+  status: RestoStatus
+  active: Boolean
+  photo: String
+  trendingPhoto: String
+  orders: [Order]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  totalCartAmt: Float
+  TotalOrderProductsAmt: Float
+  collection: Float
+  earnings: Float
+  remittance: Float
+  paidPayables: Float
+  remainingPayables: Float
+  isPopular: Boolean
+  coupons: [Coupon]
+  deliveryCounters: [DeliveryCounter]
+  products: [Product]
+  merchantTags: [MerchantTag]
+  merchantCategories: [MerchantCategory]
+  merchantLocalities: [MerchantLocality]
+  distance: Float!
+  deliveryFee: Float!
+  excessDeliveryFee: Float
+  minimumSpend: Float
+  isTrending: Boolean
+  trendingFlatRate: Float
+  trendingAppFee: Float
+  riderShare: Float
+  monday: Boolean
+  tuesday: Boolean
+  wednesday: Boolean
+  thursday: Boolean
+  friday: Boolean
+  saturday: Boolean
+  sunday: Boolean
+  openTimeMonday: DateTime
+  openTimeTuesday: DateTime
+  openTimeWednesday: DateTime
+  openTimeThursday: DateTime
+  openTimeFriday: DateTime
+  openTimeSaturday: DateTime
+  openTimeSunday: DateTime
+  closeTimeMonday: DateTime
+  closeTimeTuesday: DateTime
+  closeTimeWednesday: DateTime
+  closeTimeThursday: DateTime
+  closeTimeFriday: DateTime
+  closeTimeSaturday: DateTime
+  closeTimeSunday: DateTime
+}
+
+type MerchantProductSize {
+  id: Int!
+  merchant: Merchant
+  name: String!
+  price: Float
+  markUpPrice: Float
+  priceWithMarkUp: Float
+  active: Boolean
+  productSizes: [ProductSize]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Tag {
+  id: Int!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  merchantTags: [MerchantTag]
+}
+
+type MerchantTag {
+  id: Int!
+  merchant: Merchant
+  tag: Tag
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  merchants: [Merchant]
+  tags: [Tag]
+}
+
+type MerchantCategory {
+  id: Int!
+  merchant: Merchant
+  category: Category
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  merchants: [Merchant]
+  categories: [Tag]
+  merchantDistance: Float
+  merchantDeliveryFee: Float
+}
+
+type Product {
+  id: Int!
+  merchant: Merchant
+  name: String!
+  price: Float
+  markUpPrice: Float
+  priceWithMarkUp: Float
+  description: String
+  isAvailable: Boolean
+  promo: Float
+  rating: Int
+  active: Boolean
+  photo: String
+  addonType: AddonType
+  hasSugarLevel: Boolean
+  estPrepTime: Float
+  orderProducts: [OrderProduct]
+  productCategories: [ProductCategory]
+  productAddons: [ProductAddon]
+  productSizes: [ProductSize]
+  totalAddons: Int
+  totalAvailableProductSize: Int
+  totalAvailableAddons: Int
+  hasProductSize: Int
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type ProductSize {
+  id: Int!
+  merchantProductSize: MerchantProductSize
+  product: Product
+  name: String!
+  price: Float
+  markUpPrice: Float
+  priceWithMarkUp: Float
+  isAvailable: Boolean
+  active: Boolean
+  sortNumber: Int
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type MerchantProductCategory {
+  id: Int!
+  merchant: Merchant
+  name: String
+  productCategories: [ProductCategory]
+  createdAt: DateTime!
+  updatedAt: DateTime! 
+}
+
+type Addon {
+  id: Int!
+  merchant: Merchant
+  name: String
+  price: Float
+  markUpPrice: Float
+  priceWithMarkUp: Float
+  onlyOnePerProduct: Boolean
+  maxPieces: Int
+  active: Boolean
+  isAvailable: Boolean
+  productAddons: [ProductAddon]
+  createdAt: DateTime!
+  updatedAt: DateTime! 
+}
+
+type ProductCategory {
+  id: Int!
+  merchant: Merchant
+  merchantProductCategory: MerchantProductCategory
+  product: Product
+  createdAt: DateTime!
+  updatedAt: DateTime! 
+}
+
+type ProductAddon {
+  id: Int!
+  merchant: Merchant
+  product: Product
+  addon: Addon
+  createdAt: DateTime!
+  updatedAt: DateTime! 
+}
+
+type CouponType {
+  id: Int!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  coupons: [Coupon]
+}
+
+type CouponStatus {
+  id: Int!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  coupons: [Coupon]
+}
+
+type Coupon {
+  id: Int!
+  couponType: CouponType
+  couponStatus: CouponStatus
+  merchant: Merchant
+  code: String!
+  name: String!
+  active: Boolean
+  discount: Int
+  fixedDeduction: Int
+  usageLimit: Int
+  minimumSpend: Float
+  numberOfUse: Int
+  hasExpiry: Boolean
+  expiry: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  orders: [Order]
+  products: [Product]
+  couponLocalities: [CouponLocality]
+}
+
+type CouponLocality {
+  id: Int!
+  coupon: Coupon
+  locality: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+
+type CouponLocalities {
+  list: [CouponLocality!]!
+  count: Int!
+}
+
+type DeliveryCounter {
+  id: Int!
+  merchant: Merchant
+  noOfDeliveries: Int
+  date: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Errand {
+  id: Int!
+  customer: User
+  hero: Hero
+  heroCode: String
+  address: String
+  landmark: String
+  message: String
+  errandsFee: Float
+  distance: Float
+  customerLat: Float
+  customerLng: Float
+  receiverFullName: String
+  receiverContactNumber: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Errands {
+  list: [Errand!]!
+  count: Int!
+}
+
+type Hero {
+  id: Int!
+  user: User
+  branch: Branch
+  code: String
+  heroRole: HeroRoleOption
+  sex: SexOption
+  birthday: DateTime
+  nbiNo: String
+  policeClearanceNo: String
+  plateNo: String
+  licenseNo: String
+  lat: Float
+  lng: Float
+  amount: Float
+  earnings: Float
+  collectibles: Float
+  paidCollectibles: Float
+  remainingCollectibles: Float
+  city: String
+  locality: String
+  isAvailable: Boolean
+  active: Boolean
+  isRescuer: Boolean
+  photoNbiNo: String
+  photoPoliceClearanceNo: String
+  photoPlateNo: String
+  photoLicenseNo: String
+  heroGalleries: [HeroGallery]
+  orders: [Order]
+  errands: [Order]
+  heroesLocation: HeroesLocation
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type HeroGallery {
+  id: Int!
+  hero: Hero
+  photo: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type OrderStatus {
+  id: Int!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  orders: [Order]
+}
+
+type HeroesLocation {
+  id: Int!
+  hero: Hero
+  merchant: Merchant
+  orderStatus: OrderStatus
+  branch: Branch
+  lat: Float
+  lng: Float
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Order {
+  id: Int!
+  customer: User
+  hero: Hero
+  merchant: Merchant
+  orderStatus: OrderStatus
+  branch: Branch
+  coupon: Coupon
+  isForSomeone: Boolean
+  receiverFullName: String
+  receiverContactNumber: String
+  locality: String
+  address: String
+  landmark: String
+  customerLat: Float
+  customerLng: Float
+  heroLat: Float
+  heroLng: Float
+  total: Float
+  finalTotal: Float
+  origFinalTotal: Float
+  isTrending: Boolean
+  riderShare: Float
+  trendingDeliveryFee: Float
+  deliveryFee: Float!
+  origDeliveryFee: Float
+  excessDeliveryFee: Float
+  freeDeliveryCost: Float
+  gteMinSpend: Boolean
+  seen: Boolean
+  markUpTotal: Float
+  estPrepTime: Float
+  appFee: Float!
+  merchantAmount: Float
+  merchantEarnings: Float
+  merchantRemittance: Float
+  merchantEarningsTotal: Float
+  heroAmount: Float
+  heroEarnings: Float
+  heroCollectibles: Float
+  heroEarningsTotal: Float
+  customerRequest: String
+  heroTrendingCommissionEarning: Float
+  merchantTrendingCommissionEarning: Float
+  couponsAmount: Float
+  myHeroIncome: Float
+  riderIncome: Float
+  merchantToCustomerKm: Float
+  merchantToRiderKm: Float
+  orderProducts: [OrderProduct!]!
+  orderAddons: [OrderAddon]
+  transaksyons: [Transaksyon!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type OrderProduct {
+  id: Int!
+  order: Order
+  product: Product
+  productSize: ProductSize
+  coupon: Coupon
+  price: Float!
+  markUpPrice: Float
+  quantity: Int!
+  subtotal: Float!
+  markUpTotal: Float
+  sugarLevel: Int
+  orderAddons: [OrderAddon]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type OrderAddon {
+  id: Int!
+  order: Order
+  orderProduct: OrderProduct
+  product: Product
+  addon: Addon
+  price: Float!
+  markUpPrice: Float
+  quantity: Int!
+  subtotal: Float!
+  markUpTotal: Float
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Transaksyon {
+  id: Int!
+  order: Order
+  status: OrderStatus
+  createdAt: DateTime!
+}
+
+type PaidPayable {
+  id: Int!
+  merchant: Merchant
+  amount: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type PaidCollectible {
+  id: Int!
+  hero: Hero
+  amount: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type HeroAnalytic {
+  collectible: Int!
+}
+
+type File {
+  filename: String!
+  mimetype: String!
+  encoding: String!
+}
+
+type Costing {
+  id: Int!
+  firstKmCost: Float!
+  excessPerKmCost: Float!
+  appFee: Float!
+  errandsFlatRate: Float!
+  errandsAppFee: Float!
+  errandsExcessPerKmCost: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Expense {
+  id: Int!
+  branch: Branch
+  name: String!
+  amount: Float!
+  amountStr: String!
+  expenseDate: DateTime!
+  photo: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type MerchantLocality {
+  id: Int!
+  merchant: Merchant
+  locality: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type App {
+  appEnv: String!
+  androidVersion: String!
+  appleVersion: String!
+  phTimeNow: DateTime!
+}
+
+type Branch {
+  id: Int!
+  merchants: [Merchant]
+  heroes: [Hero]
+  orders: [Order]
+  analytics: [Analytic]
+  expenses: [Expense]
+  name: String!
+  riderSystem: String!
+  radiusLimitKm: Float
+  active: Boolean
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type RiderReview {
+  id: Int!
+  order: Order
+  customer: User
+  hero: Hero
+  merchant: Merchant
+  rating: Float
+  review: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Users {
+  list: [User!]!
+  count: Int!
+}
+
+type Categories {
+  list: [Category!]!
+  count: Int!
+}
+
+type Merchants {
+  list: [Merchant!]!
+  count: Int!
+}
+
+type Tags {
+  list: [Tag!]!
+  count: Int!
+}
+
+type MerchantTags {
+  list: [MerchantTag!]!
+  count: Int!
+}
+
+type MerchantCategories {
+  list: [MerchantCategory!]!
+  count: Int!
+}
+
+type Products {
+  list: [Product!]!
+  count: Int!
+}
+
+type ProductSizes {
+  list: [ProductSize!]!
+  count: Int!
+}
+
+type MerchantProductCategories {
+  list: [MerchantProductCategory!]!
+  count: Int!
+}
+
+type MerchantProductSizes {
+  list: [MerchantProductSize!]!
+  count: Int!
+}
+
+type Addons {
+  list: [Addon!]!
+  count: Int!
+}
+
+type OrderAddons {
+  list: [OrderAddon!]!
+  count: Int!
+}
+
+type ProductCategories {
+  list: [ProductCategory!]!
+  count: Int!
+}
+
+type ProductAddons {
+  list: [ProductAddon!]!
+  count: Int!
+}
+
+type CouponStatuses {
+  list: [CouponStatus!]!
+  count: Int!
+}
+
+type CouponTypes {
+  list: [CouponType!]!
+  count: Int!
+}
+
+type Coupons {
+  list: [Coupon!]!
+  count: Int!
+}
+
+type Heroes {
+  list: [Hero!]!
+  count: Int!
+}
+
+type HeroGalleries {
+  list: [HeroGallery!]!
+  count: Int!
+}
+
+type OrderStatuses {
+  list: [OrderStatus!]!
+  count: Int!
+}
+
+type Expenses {
+  list: [Expense!]!
+  count: Int!
+  totalAmount: Float
+  totalAmountStr: String
+}
+
+type Orders {
+  list: [Order!]!
+  count: Int!
+  myHeroEarnings: Float @deprecated(reason: "Field is deprecated!")
+  merchantEarnings: Float
+  heroRidersEarnings: Float
+  merchantCollectibles: Float
+  heroCollectibles: Float
+  sumTotal: Float
+  sumFinalTotal: Float
+}
+
+type OrderProducts {
+  list: [OrderProduct!]!
+  count: Int!
+}
+
+type Transaksyons {
+  list: [Transaksyon!]!
+  count: Int!
+}
+
+type PaidPayables {
+  list: [PaidPayable!]!
+  count: Int!
+}
+
+type PaidCollectibles {
+  list: [PaidCollectible!]!
+  count: Int!
+}
+
+type MerchantLocalities {
+  list: [MerchantLocality!]!
+  count: Int!
+}
+
+type RiderReviews {
+  list: [RiderReview!]!
+  count: Int!
+}
+
+type Subscription {
+  newTag: Tag
+  updatedOrder(id: Int): MessageOrder
+  orderStatusChanged(orderStatus: Int): MessageOrder
+  orderToMe(merchant: Int): MessageOrder
+  assignToHero(hero: Int): MessageOrder
+  reloadMobile: CronMessage
+  reloadUI: Quote
+  newUser: User
+  updatedUser(user: Int!): User
+}
+
+type Analytic {
+  branch: Branch!
+  myHeroAsset: Float
+  expenses: Float
+  netIncome: Float
+  semicolonShare: Float
+  myHeroEarning: Float
+  ramonShare: Float
+  felixShare: Float
+  vinceShare: Float
+  deliveredOrders: Float
+  cancelledOrders: Float
+  noShowOrders: Float
+  myHeroAssetStr: String
+  expensesStr: String
+  netIncomeStr: String
+  semicolonShareStr: String
+  myHeroEarningStr: String
+  ramonShareStr: String
+  felixShareStr: String
+  vinceShareStr: String
+  deliveredOrdersStr: String
+  cancelledOrdersStr: String
+  noShowOrdersStr: String
+  ramonShareFromNet: Float
+  felixShareFromNet: Float
+  myHeroAssetShareFromNet: Float
+  vinceSemicolonShare: Float
+  vinceMyHeroEarning: Float
+  ramonShareFromNetPercent: String
+  felixShareFromNetPercent: String
+  myHeroAssetShareFromNetPercent: String
+  vinceSemicolonSharePercent: String
+  vinceMyHeroEarningPercent: String
+  felixSemicolonShare: Float
+  felixSemicolonSharePercent: String
+  ramonSemicolonShare: Float
+  ramonSemicolonSharePercent: String
+  vinceShareFromNet: Float
+  vinceShareFromNetPercent: String
+}
+
+type Percent {
+  ramonSemicolonShare: Float
+  ramonMyHeroEarning: Float
+  felixSemicolonShare: Float
+  felixMyHeroEarning: Float
+  vinceSemicolonShare: Float
+  vinceMyHeroEarning: Float
+  myHeroAssetSemicolonShare: Float
+  myHeroAssetMyHeroEarning: Float
+  ramonSemicolonSharePercent: String
+  ramonMyHeroEarningPercent: String
+  felixSemicolonSharePercent: String
+  felixMyHeroEarningPercent: String
+  vinceSemicolonSharePercent: String
+  vinceMyHeroEarningPercent: String
+  myHeroAssetSemicolonSharePercent: String
+  myHeroAssetMyHeroEarningPercent: String
+}
+
+type MessageOrder {
+  order: Order
+  wordsOfWisdom: String
+}
+
+type CronMessage {
+  cronGreeting: String
+}
+
+type Quote {
+  randomMessage: String
+}
+
+enum UsersOrderByInput {
+  name_ASC
+  name_DESC
+  email_ASC
+  email_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+enum UsersOrderBy {
+  id
+  name
+  email
+  createdAt
+  updatedAt
+}
+
+enum HeroesOrderBy {
+  id
+  birthday
+  createdAt
+  updatedAt
+}
+
+enum CategoriesOrderBy {
+  id
+  name
+  createdAt
+  updatedAt
+}
+
+enum TagsOrderBy {
+  id
+  name
+  createdAt
+  updatedAt
+}
+
+enum MerchantTagsOrderBy {
+  id
+  createdAt
+  updatedAt
+}
+
+enum CouponStatusOrderBy {
+  id
+  name
+  createdAt
+  updatedAt
+}
+
+enum CouponTypesOrderBy {
+  id
+  name
+  createdAt
+  updatedAt
+}
+
+enum CouponsOrderBy {
+  id
+  name
+  discount
+  fixedDeduction
+  numberOfUse
+  expiry
+  createdAt
+  updatedAt
+}
+
+enum DeliveryCountersOrderBy {
+  id
+  merchant
+  noOfDeliveries
+  date
+  createdAt
+  updatedAt
+}
+
+enum ProductsOrderBy {
+  id
+  name
+  price
+  priceWithMarkUp
+  createdAt
+  updatedAt
+}
+
+enum ProductSizesOrderBy {
+  id
+  name
+  price
+  priceWithMarkUp
+  sortNumber
+  createdAt
+  updatedAt
+}
+
+enum OrderStatusOrderBy {
+  id
+  name
+  createdAt
+  updatedAt
+}
+
+enum MerchantsOrderBy {
+  id
+  owner
+  adminCollections
+  adminEarnings
+  adminRemittanceToMerchant
+  adminPaidPayables
+  adminRemainingPayables
+  createdAt
+  updatedAt
+}
+
+enum OrdersOrderBy {
+  id
+  total
+  finalTotal
+  deliveryFee
+  orderStatus
+  createdAt
+  updatedAt
+}
+
+enum PaidPayablesOrderBy {
+  id
+  amount
+  createdAt
+  updatedAt
+}
+
+enum PaidCollectiblesOrderBy {
+  id
+  amount
+  createdAt
+  updatedAt
+}
+
+enum ExpensesOrderBy {
+  id
+  name
+  expenseDate
+  amount
+  createdAt
+  updatedAt
+}
+
+enum MerchantLocalitiesOrderBy {
+  id
+  createdAt
+  updatedAt
+}
+
+enum CouponLocalitiesOrderBy {
+  id
+  createdAt
+  updatedAt
+}
+
+enum ErrandsOrderBy {
+  id
+  createdAt
+  updatedAt
+}
+
+enum LocalitiesOrderBy {
+  id
+  createdAt
+  updatedAt
+}
+
+enum MerchantProductCategoriesOrderBy {
+  id
+  name
+  createdAt
+  updatedAt
+}
+
+enum MerchantProductSizesOrderBy {
+  id
+  name
+  price
+  markUpPrice
+  priceWithMarkUp
+  createdAt
+  updatedAt
+}
+
+enum AddonsOrderBy {
+  id
+  name
+  price
+  markUpPrice
+  priceWithMarkUp
+  createdAt
+  updatedAt
+}
+
+enum ProductCategoriesOrderBy {
+  id
+  createdAt
+  updatedAt
+}
+
+enum ProductAddonsOrderBy {
+  id
+  createdAt
+  updatedAt
+}
+
+enum OrderAddonsOrderBy {
+  id
+  price
+  markUpPrice
+  quantity
+  subtotal
+  markUpTotal
+  createdAt
+  updatedAt
+}
+
+enum OrderProductOrderBy {
+  id
+  price
+  markUpPrice
+  quantity
+  subtotal
+  markUpTotal
+  createdAt
+  updatedAt
+}
+
+enum RiderReviewsOrderBy {
+  id
+  order
+  createdAt
+  updatedAt
+}
+
+enum ProductsOrderByInput {
+  name_ASC
+  name_DESC
+  price_ASC
+  price_DESC
+  promo_ASC
+  promo_DESC
+  rating_ASC
+  rating_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+enum HeroGalleriesOrderByInput {
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+enum OrderProductsOrderByInput {
+  price_ASC
+  price_DESC
+  quantity_ASC
+  quantity_DESC
+  subtotal_ASC
+  subtotal_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+enum TransaksyonsOrderByInput {
+  createdAt_ASC
+  createdAt_DESC
+}
+
+enum RestoStatus {
+  OPEN
+  CLOSE
+}
+
+enum SexOption {
+  M
+  F
+}
+
+enum HeroRoleOption {
+  food_delivery
+  errands
+}
+
+enum UserType {
+  CUSTOMER
+  HERO
+  MERCHANT_ALLY
+  LOCAL_ADMIN
+  NATL_ADMIN
+}
+
+enum UserStatus {
+  PENDING
+  ACCEPT
+  REJECT
+}
+
+enum AddonType {
+  NONE
+  SINGLE
+  MULTIPLE
+}
+
+input OrderProductCreateInput {
+  product: Int
+  productSize: Int
+  coupon: Int
+  price: Float
+  markUpPrice: Float
+  quantity: Int
+  sugarLevel: Int
+  orderAddons: [OrderAddonCreateInput]
+}
+
+input OrderAddonCreateInput {
+  addon: Int
+  product: Int
+  price: Float
+  markUpPrice: Float
+  quantity: Int
+}
+
+input OrderProductEditInput {
+  product: Int
+  productSize: Int
+  coupon: Int
+  price: Float
+  markUpPrice: Float
+  quantity: Int
+  sugarLevel: Int
+  productUnavailableNextOrder: Boolean
+  sizeUnavailableNextOrder: Boolean
+  orderAddons: [OrderAddonEditInput]
+}
+
+input OrderAddonEditInput {
+  addon: Int
+  product: Int
+  price: Float
+  markUpPrice: Float
+  quantity: Int
+  unavailableNextOrder: Boolean
+}
+
+input OrderProductUpdateInput {
+  id: Int
+  newQuantity: Float
+}
+
+input OrderAddonUpdateInput {
+  id: Int
+  newQuantity: Float
+}
+
+input MerchantSchedule {
+  isOpen: Boolean!
+  day: days!
+  openTime: DateTime
+  closeTime: DateTime
+}
+
+enum days {
+  monday
+  tuesday
+  wednesday
+  thursday
+  friday
+  saturday
+  sunday
+}
+
+enum orderByDirection {
+  ASC
+  DESC
+}

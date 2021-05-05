@@ -1,0 +1,395 @@
+/*
+Create order with order products and transaction
+*/
+mutation{
+	createOrder(
+    user: 3
+    merchant: 1
+    address:"Test Address"
+    landmark:"Test Landmark"
+    customerLat: 0.1
+    customerLng: 10.00 
+    total: 5.99 
+    deliveryFee: 11
+    couponCode: UNIQUE_101//optional
+    orderProducts: [
+      {
+        product: 1
+        productSize: 1
+        coupon: 1//optional
+        price: 100 
+        markUpPrice: 0
+        quantity: 250,
+        orderAddOns: [
+          {
+            addon: 1,
+            price: 100 
+            markUpPrice: 0
+            quantity: 250,
+          },
+          {
+            addon: 2,
+            price: 100 
+            markUpPrice: 0
+            quantity: 250,
+          }
+        ] 
+      }
+    ]
+  ){
+    id
+    customer {
+      id
+      name
+    }
+    hero {
+      id
+      user {
+        id
+        name
+      }
+    }
+    merchant {
+      id
+      user {
+        id
+        name
+      }
+      owner
+    }
+    orderStatus {
+      id
+      name
+    }
+    orderProducts {
+      id
+      product {
+        id
+        name
+      }
+      productSize {
+        name
+      }
+      coupon {
+        id
+        name
+      }
+      price
+      markUpPrice
+      quantity
+      subtotal
+      markUpTotal
+    }
+    transaksyons {
+      id
+      order {
+        id
+      }
+      status {
+        id
+        name
+      }
+    }
+    markUpTotal
+    createdAt
+    updatedAt
+  }
+}
+
+/*
+Update status of order
+*/
+mutation {
+  updateStatusOfOrder(
+    id:1, 
+    status: 4
+  ){
+    id
+    orderStatus {
+      id
+      name
+    }
+    customer{
+      id
+      name
+    }
+    hero {
+      id
+    }
+    merchant {
+      id
+      user {
+        id
+        name
+      }
+    }
+    createdAt
+    updatedAt
+  }
+}
+
+/*get orders by merchant id*/
+query {
+  ordersByMerchant(
+    merchantID: 1
+    createdAt: "2020-08-08"
+  ){
+    id
+    customer{
+      id
+      name
+    }
+    hero {
+      id
+      user{
+        id
+        name
+      }
+    }
+    merchant {
+      id
+      owner
+      user {
+        id
+        name
+      }
+    }
+    orderStatus {
+      id
+      name
+    }
+    address
+    landmark
+    createdAt
+  }
+}
+
+/*get orders by merchant id pagination*/
+query {
+  ordersByMerchantPagination(
+    merchantID: 1
+    createdAt: "2020-08-08"
+  ){
+    count
+    list {
+      id
+      customer{
+        id
+        name
+      }
+      hero {
+        id
+        user{
+          id
+          name
+        }
+      }
+      merchant {
+        id
+        owner
+        user {
+          id
+          name
+        }
+      }
+      orderStatus {
+        id
+        name
+      }
+      address
+      landmark
+      createdAt
+    }
+  }
+}
+
+/*get orders by hero id*/
+query {
+  ordersByHero(
+    heroID: 1
+  ){
+    id
+    customer{
+      id
+      name
+    }
+    hero {
+      id
+      user{
+        id
+        name
+      }
+    }
+    merchant {
+      id
+      owner
+      user {
+        id
+        name
+      }
+    }
+    orderStatus {
+      id
+      name
+    }
+    address
+    landmark
+    createdAt
+  }
+}
+
+/*get orders by hero id pagination*/
+query {
+  ordersByHeroPagination(
+    heroID: 1
+  ){
+    count
+    list {
+      id
+      customer{
+        id
+        name
+      }
+      hero {
+        id
+        user{
+          id
+          name
+        }
+      }
+      merchant {
+        id
+        owner
+        user {
+          id
+          name
+        }
+      }
+      orderStatus {
+        id
+        name
+      }
+      address
+      landmark
+      createdAt
+    }
+  }
+}
+
+query{
+  ordersPagination (orderStatus: 7){
+    myHeroEarnings
+    merchantCollectibles
+    heroRidersEarnings
+  }
+}
+
+/**Create order with add-ons, size and sugar level**/
+mutation{
+  createOrder(
+    user: 3
+    merchant: 17
+    address:"Test Address"
+    landmark:"Test Landmark"
+    customerLat: 0.1
+    customerLng: 10.00 
+    total: 1 
+    deliveryFee: 10
+    orderProducts: [
+      {
+        product: 28
+        productSize: 4
+        price: 21
+        markUpPrice: 1
+        quantity: 1,
+        sugarLevel: 25
+        orderAddons: [
+          {
+            addon: 1,
+            product: 28,
+            price: 3
+            markUpPrice: 2
+            quantity: 1,
+          },
+          {
+            addon: 2,
+            product: 28,
+            price: 3
+            markUpPrice: 2
+            quantity: 2,
+          }
+        ] 
+      }
+    ]
+  ){
+    id
+    customer {
+      id
+      name
+    }
+    hero {
+      id
+      user {
+        id
+        name
+      }
+    }
+    merchant {
+      id
+      user {
+        id
+        name
+      }
+      owner
+    }
+    orderStatus {
+      id
+      name
+    }
+    orderProducts {
+      id
+      product {
+        id
+        name
+      }
+      productSize {
+        name
+      }
+      coupon {
+        id
+        name
+      }
+      price
+      markUpPrice
+      quantity
+      subtotal
+      markUpTotal
+      sugarLevel
+    }
+    transaksyons {
+      id
+      order {
+        id
+      }
+      status {
+        id
+        name
+      }
+    }
+    total
+    finalTotal
+    markUpTotal
+    createdAt
+    updatedAt
+  }
+}
+
+/**Transfer order to new hero**/
+mutation {
+  transferOrderToNewHero(id: 128, hero: 9) {
+    id
+    hero {
+      id
+    }
+  }
+}

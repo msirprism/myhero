@@ -1,0 +1,23 @@
+mutation{
+    createProductSize(merchantProductSize: 1, product: 53) {
+    id
+    merchantProductSize {
+      name
+    }
+    product {
+      name
+    }
+  }
+}
+
+mutation{
+    updateProductSize(id: 1, isAvailable: false) {
+    id
+    merchantProductSize {
+      name
+    }
+    product {
+      name
+    }
+  }
+}

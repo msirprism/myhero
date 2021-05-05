@@ -1,0 +1,36 @@
+query {
+  analytic(startDate: "2020-12-01", endDate: "2020-12-01") {
+    myHeroAsset
+    expenses
+    netIncome
+    semicolonShare
+    myHeroEarning
+    ramonShare
+    felixShare
+    vinceShare
+    deliveredOrders
+    cancelledOrders
+    noShowOrders
+    myHeroAssetStr
+    expensesStr
+    netIncomeStr
+    semicolonShareStr
+    myHeroEarningStr
+    ramonShareStr
+    felixShareStr
+    vinceShareStr
+    deliveredOrdersStr
+    cancelledOrdersStr
+    noShowOrdersStr
+    ramonShareFromNet
+    felixShareFromNet
+    myHeroAssetShareFromNet
+    vinceSemicolonShare
+    vinceMyHeroEarning
+    ramonShareFromNetPercent
+    felixShareFromNetPercent
+    myHeroAssetShareFromNetPercent
+    vinceSemicolonSharePercent
+    vinceMyHeroEarningPercent
+  }
+}

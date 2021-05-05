@@ -1,0 +1,47 @@
+mutation {
+  createExpense(name: "Text Expense", amount: 1500.99, expenseDate:"2020-12-31") {
+    id
+    name
+    amount
+    amountStr
+    expenseDate
+    createdAt
+    updatedAt
+  }
+}
+
+mutation {
+  updateExpense(id: 1, name: "Updated Expense", amount: 1600000.50, expenseDate:"2020-09-10") {    
+    name
+    amount
+    amountStr
+    expenseDate
+    createdAt
+    updatedAt
+  }
+}
+
+query {
+  expensesPagination (skip: 0, first: 10) {
+    count
+    list {
+      name
+      amount
+      amountStr
+      expenseDate
+      createdAt
+      updatedAt
+    }
+  }
+}
+
+query {
+  expense (id: 1) {
+      name
+      amount
+      amountStr
+      expenseDate
+      createdAt
+      updatedAt
+  }
+}

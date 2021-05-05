@@ -1,0 +1,41 @@
+  createMerchantProductSize(
+    merchantID: 15,
+    name: "Small",
+    price: 20,
+    markUpPrice: 5
+  ) {
+    id
+    merchant {
+      name
+    }
+    price
+    markUpPrice
+    priceWithMarkUp
+    createdAt
+    updatedAt
+  }
+
+  mutation{
+  updateMerchantProductSize(
+    id: 1,
+    name: "Venti",
+    price: 500,
+    markUpPrice: 100,
+    active: false
+  ) {
+    id
+    merchant {
+      name
+    }
+    productSizes {
+      name
+      price
+      markUpPrice
+      priceWithMarkUp
+      active
+      product {
+        name
+      }
+    }
+  }
+}

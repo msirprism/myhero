@@ -1,0 +1,79 @@
+version: '3.3'
+
+services:
+  
+  prisma:
+    container_name: myhero-uat-prisma
+    image: prismagraphql/prisma:1.34
+    restart: unless-stopped
+    ports:
+      - '4470:4466'
+    environment:
+      PRISMA_CONFIG: |
+        port: 4466
+        databases:
+          default:
+            connector: mysql
+            active: true
+            host: myhero-uat-mysql
+            port: 3306
+            user: root
+            password: rootpassword
+    networks:
+      - myhero-uat-network
+
+  myhero-uat-graphql:
+    container_name: myhero-uat-graphql
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile-prod
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - '4471:4000'
+    networks:
+      - myhero-uat-network
+
+  myhero-uat-mysql:
+    image: mysql:5.7.22
+    container_name: myhero-uat-mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 4472:3306
+    environment:
+      MYSQL_DATABASE: uat-myhero
+      MYSQL_ROOT_PASSWORD: rootpassword
+      SERVICE_TAGS: dev
+      SERVICE_NAME: myhero-uat-mysql
+    volumes:
+      - dbdata:/var/lib/mysql/
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - myhero-uat-network
+
+  myhero-uat-phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: myhero-uat-phpmyadmin
+    restart: unless-stopped
+    links: 
+      - myhero-uat-mysql:db
+    ports:
+      - 4473:80
+    environment:
+      MYSQL_USER: user
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: rootpassword
+    networks:
+      - myhero-uat-network
+
+#Docker Networks
+networks:
+  myhero-uat-network:
+    driver: bridge
+#Volumes
+volumes:
+  dbdata:
+    driver: local

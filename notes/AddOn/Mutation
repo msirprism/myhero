@@ -1,0 +1,63 @@
+mutation {
+  createAddon(
+    merchantID: 15, 
+    name: "Oregano", 
+    price: 1, 
+    markUpPrice: 2,
+    onlyOnePerProduct: true
+  ) {
+    id
+    merchant {
+      id
+      name
+    }
+    name
+    price
+    markUpPrice
+    priceWithMarkUp
+    isAvailable
+    active
+  }
+}
+
+mutation {
+  updateAddon(
+    id: 1,
+    name: "Pepper", 
+    price: 1, 
+    markUpPrice: 2,
+    isAvailable: true,
+    active: true,
+    onlyOnePerProduct: false
+  ) {
+    id
+    merchant {
+      id
+      name
+    }
+    name
+    price
+    markUpPrice
+    priceWithMarkUp
+    isAvailable
+    active
+  }
+}
+
+mutation {
+  deleteAddon(
+    id: 4
+  ) {
+    id
+    merchant {
+      id
+      name
+    }
+    name
+    price
+    markUpPrice
+    priceWithMarkUp
+    isAvailable
+    active
+  }
+}

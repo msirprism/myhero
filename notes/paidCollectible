@@ -1,0 +1,15 @@
+mutation {
+  payCollectible(hero: 1, amount: 60){
+    id
+    hero {
+      id
+      user {
+        id
+        name
+      }
+    }
+    amount
+    createdAt
+    updatedAt
+  }
+}

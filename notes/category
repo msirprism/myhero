@@ -1,0 +1,24 @@
+/*
+Creat category
+*/
+mutation{
+    createCategory(name:"Category B"){
+    id
+    name
+    merchantCategories {
+      id
+      merchant {
+        id
+        owner
+        user {
+          id
+          name
+        }
+      }
+      category {
+        id
+        name
+      }
+    }
+  }
+}

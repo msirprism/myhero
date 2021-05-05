@@ -1,0 +1,44 @@
+mutation {
+  createProductCategory(merchantID: 15, merchantProductCategoryID: 2, productID: 544){
+    id
+    merchant {
+      name
+    }
+    merchantProductCategory{
+      name
+    }
+    product{
+      name
+    }
+  }
+}
+
+mutation {
+  updateProductCategory(id: 1, merchantProductCategoryID: 3, productID: 551){
+    id
+    merchant {
+      name
+    }
+    merchantProductCategory{
+      name
+    }
+    product{
+      name
+    }
+  }
+}
+
+mutation {
+  deleteProductCategory(id: 1){
+    id
+    merchant {
+      name
+    }
+    product{
+      name
+    }
+    merchantProductCategory{
+      name
+    }
+  }
+}

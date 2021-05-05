@@ -1,0 +1,67 @@
+/*Create product*/
+mutation {
+  createProduct(
+		merchant_merchantToproduct: 1 //this is merchant id
+    name: "Test Product"
+    price: 2500
+    markUpPrice: 0
+    description: "Lorem ipsum blablabla."
+    isAvailable: true
+  ) {
+    id
+    merchant {
+      id
+      owner
+    }
+    name
+    price
+    description
+    isAvailable
+    markUpPrice
+    priceWithMarkUp
+    createdAt
+    updatedAt
+  }
+}
+
+/**
+@Boolean canBeMultipleAddon: If yes, customer can select more than 1 add-on for this product using multiple checkbox
+@Boolean hasSugarLevel: If yes, show sugar level UI
+@Int totalAddons: If more than 0, show list of add-ons where active = true. If add-on isAvailable = false, show it but disable it.
+@Int totalAvailableProductSize: If more than 0, show list of product sizes. If a product size size is not available, show it but disable it.
+@Int hasProductSize: If 0, product has no product size. Don't show list of sizes
+@Array productSizes: array list of sizes for this specific product
+@Array productAddons: array list of add-ons for this specific product
+**/
+query {
+  product(id: 28){
+    id
+    name
+    addonType  //NONE,SINGLE,MULTIPLE
+    hasSugarLevel //if false, don't show sugar level UI
+    totalAddons //if > 0, show list of add ons
+    isAvailable   //if false, disable product when list of products are loaded
+    hasProductSize  //if 0, no product sizes to show
+    totalAvailableProductSize //number of available product size
+    productSizes {
+      id
+      name
+      price
+      markUpPrice
+      priceWithMarkUp
+      isAvailable //if false, show but disable
+      active
+    }
+    productAddons {
+      addon {
+        name
+        price
+        markUpPrice
+        priceWithMarkUp
+        onlyOnePerProduct //If true, only 1 quantity. If false, show +/- UI since user can increase/decrease quantity.
+        isAvailable //if false, show add-on but disable it
+        active
+      }
+    }
+  }
+}

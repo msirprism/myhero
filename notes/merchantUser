@@ -1,0 +1,83 @@
+/*
+One of the most important mutation
+Create merchant + user + upload establishment/building photo + upload owner photo then connect to existing category
+*/
+mutation {
+    createMerchantUser(
+        name: "Gray's Water Station" 
+        email: "gray@ft.com"
+        password: "123456"
+        contactNumber: "820-31-89"
+        active: true 
+      	category: 1
+        owner: "Gray Fullbuster"
+        address: "Magnolia" 
+        lat: 0.55
+        lng: 1.29 
+        status: OPEN
+        photo: //photo ng building
+        ownerPhoto: //photo ng may-ari
+        isElite: true
+        isTrending: true
+        trendingFlatRate: 1
+        trendingAppFee: 2
+        riderShare: 3
+    ) {
+        id
+    		owner
+        photo
+    		user {
+          id
+          name
+          photo
+          type
+          child_id
+        }
+    		merchantCategories{
+          id
+          category {
+            id
+            name
+          }
+        }
+        createdAt
+        updatedAt
+    }
+}
+
+/*Update merchant, user and change category*/
+mutation {
+  updateMerchantUser(
+    userID: 2 
+    name: "Zoro Sword Shop" 
+    contactNumber:"98765432101"
+    owner: "Roronoa Zoro"
+    city: "Wano Kuni"
+    category: 3
+    isElite: true
+    password: "123456" //optional
+    isTrending: true
+    trendingFlatRate: 1
+    trendingAppFee: 2
+    riderShare: 3
+  ) 
+  {
+    id
+    user {
+      id
+      name
+      contactNumber
+    }
+    owner
+    city
+    merchantCategories {
+      id
+      category {
+        id
+        name
+      }
+    }
+    createdAt
+    updatedAt
+  }
+}

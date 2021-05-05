@@ -1,0 +1,24 @@
+/*All products from merchant*/
+query {
+  productsByMerchant(merchantID: 1, productName: "Produc") {
+    id
+    name
+    price
+    isAvailable
+    markUpPrice
+    createdAt
+    updatedAt
+  }
+}
+
+/*Paginate products by merchant*/
+query {
+  productsByMerchantPagination(merchantID: 1, productName: "Produk") {
+    list {
+      id
+      name
+      markUpPrice
+    }
+    count
+  }
+}

@@ -1,0 +1,497 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model analytic {
+  id                      Int      @default(autoincrement()) @id
+  branch                  Int?
+  myHeroEarning           Float    @default(0.00)
+  semicolonShare          Float    @default(0.00)
+  myHeroAsset             Float    @default(0.00)
+  ramonShare              Float    @default(0.00)
+  felixShare              Float    @default(0.00)
+  vinceShare              Float    @default(0.00)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @default(now())
+  branch_analyticTobranch branch?  @relation(fields: [branch], references: [id])
+
+  @@index([branch], name: "analytic_branch_foreign")
+}
+
+model category {
+  id               Int                @default(autoincrement()) @id
+  name             String             @unique
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @default(now())
+  merchantCategory merchantCategory[]
+}
+
+model costing {
+  id              Int      @default(autoincrement()) @id
+  firstKmCost     Float    @default(0.00)
+  excessPerKmCost Float    @default(0.00)
+  appFee          Float    @default(0.00)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @default(now())
+}
+
+model coupon {
+  id                                Int            @default(autoincrement()) @id
+  couponType                        Int?
+  couponStatus                      Int?
+  name                              String         @unique
+  discount                          Int            @default(0)
+  fixedDeduction                    Int            @default(0)
+  numberOfUse                       Int            @default(0)
+  expiry                            DateTime
+  createdAt                         DateTime       @default(now())
+  updatedAt                         DateTime       @default(now())
+  couponStatus_couponTocouponStatus couponStatus?  @relation(fields: [couponStatus], references: [id])
+  couponType_couponTocouponType     couponType?    @relation(fields: [couponType], references: [id])
+  orderProduct                      orderProduct[]
+
+  @@index([couponStatus], name: "coupon_couponstatus_foreign")
+  @@index([couponType], name: "coupon_coupontype_foreign")
+}
+
+model expense {
+  id                     Int      @default(autoincrement()) @id
+  branch                 Int?
+  name                   String
+  amount                 Float    @default(0.00)
+  amountStr              String
+  expenseDate            DateTime
+  photo                  String?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @default(now())
+  branch_branchToexpense branch?  @relation(fields: [branch], references: [id])
+
+  @@index([branch], name: "expense_branch_foreign")
+}
+
+model hero {
+  id                     Int               @default(autoincrement()) @id
+  user                   Int?
+  branch                 Int?
+  code                   String?           @unique
+  sex                    hero_sex          @default(M)
+  birthday               DateTime
+  nbiNo                  String?
+  policeClearanceNo      String?
+  plateNo                String?
+  licenseNo              String?
+  city                   String?
+  amount                 Float             @default(0.00)
+  earnings               Float             @default(0.00)
+  collectibles           Float             @default(0.00)
+  paidCollectibles       Float             @default(0.00)
+  remainingCollectibles  Float             @default(0.00)
+  isAvailable            Boolean           @default(true)
+  active                 Boolean           @default(true)
+  isRescuer              Boolean           @default(false)
+  photoNbiNo             String?
+  photoPoliceClearanceNo String?
+  photoPlateNo           String?
+  photoLicenseNo         String?
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime          @default(now())
+  branch_branchTohero    branch?           @relation(fields: [branch], references: [id])
+  user_heroTouser        user?             @relation(fields: [user], references: [id])
+  heroesLocation         heroesLocation[]
+  heroGallery            heroGallery[]
+  order                  order[]
+  paidCollectible        paidCollectible[]
+
+  @@index([branch], name: "hero_branch_foreign")
+  @@index([user], name: "hero_user_foreign")
+}
+
+model merchant {
+  id                      Int                @default(autoincrement()) @id
+  user                    Int?
+  branch                  Int?
+  name                    String
+  owner                   String
+  havePermit              Boolean            @default(false)
+  myHeroShare             Int                @default(0)
+  collection              Float              @default(0.00)
+  earnings                Float              @default(0.00)
+  remittance              Float              @default(0.00)
+  paidPayables            Float              @default(0.00)
+  remainingPayables       Float              @default(0.00)
+  address                 String?
+  lat                     Float?
+  lng                     Float?
+  city                    String?
+  businessPermitNo        String?
+  active                  Boolean            @default(true)
+  photo                   String?
+  status                  merchant_status    @default(OPEN)
+  isPopular               Boolean            @default(false)
+  createdAt               DateTime           @default(now())
+  updatedAt               DateTime           @default(now())
+  branch_branchTomerchant branch?            @relation(fields: [branch], references: [id])
+  user_merchantTouser     user?              @relation(fields: [user], references: [id])
+  heroesLocation          heroesLocation[]
+  merchantCategory        merchantCategory[]
+  merchantLocality        merchantLocality[]
+  merchantTag             merchantTag[]
+  order                   order[]
+  paidPayable             paidPayable[]
+  product                 product[]
+
+  @@index([branch], name: "merchant_branch_foreign")
+  @@index([user], name: "merchant_user_foreign")
+}
+
+model migrations {
+  id        Int    @default(autoincrement()) @id
+  migration String
+  batch     Int
+}
+
+model order {
+  id                             Int            @default(autoincrement()) @id
+  customer                       Int?
+  hero                           Int?
+  merchant                       Int?
+  orderStatus                    Int?
+  branch                         Int?
+  heroCode                       String?
+  address                        String
+  landmark                       String?
+  customerLat                    Float
+  customerLng                    Float
+  deliveryFee                    Float          @default(0.00)
+  total                          Float          @default(0.00)
+  finalTotal                     Float          @default(0.00)
+  markUpTotal                    Float          @default(0.00)
+  appFee                         Float          @default(0.00)
+  merchantAmount                 Float          @default(0.00)
+  merchantEarnings               Float          @default(0.00)
+  merchantRemittance             Float          @default(0.00)
+  heroAmount                     Float          @default(0.00)
+  heroEarnings                   Float          @default(0.00)
+  heroCollectibles               Float          @default(0.00)
+  merchantToCustomerKm           Float          @default(0.00)
+  lastCheckHero                  Int?
+  customerRequest                String?
+  createdAt                      DateTime       @default(now())
+  updatedAt                      DateTime       @default(now())
+  branch_branchToorder           branch?        @relation(fields: [branch], references: [id])
+  user                           user?          @relation(fields: [customer], references: [id])
+  hero_heroToorder               hero?          @relation(fields: [hero], references: [id])
+  merchant_merchantToorder       merchant?      @relation(fields: [merchant], references: [id])
+  orderStatus_orderToorderStatus orderStatus?   @relation(fields: [orderStatus], references: [id])
+  orderProduct                   orderProduct[]
+  transaksyon                    transaksyon[]
+
+  @@index([branch], name: "order_branch_foreign")
+  @@index([customer], name: "order_customer_foreign")
+  @@index([hero], name: "order_hero_foreign")
+  @@index([merchant], name: "order_merchant_foreign")
+  @@index([orderStatus], name: "order_orderstatus_foreign")
+}
+
+model percent {
+  id                        Int      @default(autoincrement()) @id
+  ramonSemicolonShare       Float    @default(0.00)
+  ramonMyHeroEarning        Float    @default(0.00)
+  ramonShareFromNet         Float    @default(0.00)
+  felixSemicolonShare       Float    @default(0.00)
+  felixMyHeroEarning        Float    @default(0.00)
+  felixShareFromNet         Float    @default(0.00)
+  vinceSemicolonShare       Float    @default(0.00)
+  vinceMyHeroEarning        Float    @default(0.00)
+  vinceShareFromNet         Float    @default(0.00)
+  myHeroAssetSemicolonShare Float    @default(0.00)
+  myHeroAssetMyHeroEarning  Float    @default(0.00)
+  myHeroAssetShareFromNet   Float    @default(0.00)
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @default(now())
+}
+
+model product {
+  id                         Int            @default(autoincrement()) @id
+  merchant                   Int?
+  name                       String
+  price                      Float          @default(0.00)
+  markUpPrice                Float          @default(0.00)
+  priceWithMarkUp            Float          @default(0.00)
+  description                String?
+  isAvailable                Boolean        @default(false)
+  promo                      Float          @default(0.00)
+  active                     Boolean        @default(false)
+  photo                      String?
+  createdAt                  DateTime       @default(now())
+  updatedAt                  DateTime       @default(now())
+  merchant_merchantToproduct merchant?      @relation(fields: [merchant], references: [id])
+  orderProduct               orderProduct[]
+
+  @@index([merchant], name: "product_merchant_foreign")
+}
+
+model tag {
+  id          Int           @default(autoincrement()) @id
+  name        String        @unique
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now())
+  merchantTag merchantTag[]
+}
+
+model transaksyon {
+  id                                   Int          @default(autoincrement()) @id
+  order                                Int?
+  orderStatus                          Int?
+  createdAt                            DateTime     @default(now())
+  updatedAt                            DateTime     @default(now())
+  order_orderTotransaksyon             order?       @relation(fields: [order], references: [id])
+  orderStatus_orderStatusTotransaksyon orderStatus? @relation(fields: [orderStatus], references: [id])
+
+  @@index([order], name: "transaksyon_order_foreign")
+  @@index([orderStatus], name: "transaksyon_orderstatus_foreign")
+}
+
+model user {
+  id                     Int            @default(autoincrement()) @id
+  name                   String
+  email                  String?        @unique
+  contactNumber          String         @unique
+  status                 user_status    @default(PENDING)
+  type                   user_type      @default(CUSTOMER)
+  password               String
+  photo                  String?
+  validIdImg             String?
+  isShareholder          Boolean        @default(false)
+  netShare               Float          @default(0.00)
+  readableNetShare       Float          @default(0.00)
+  semicolonShare         Float          @default(0.00)
+  readableSemicolonShare Float          @default(0.00)
+  firebaseToken          String?
+  child_id               Int            @default(0)
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime       @default(now())
+  hero                   hero[]
+  merchant               merchant[]
+  order                  order[]
+  userAnalytic           userAnalytic[]
+}
+
+model app {
+  id             Int      @default(autoincrement()) @id
+  appEnv         String
+  androidVersion String
+  appleVersion   String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now())
+}
+
+model couponStatus {
+  id        Int      @default(autoincrement()) @id
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  coupon    coupon[]
+}
+
+model couponType {
+  id        Int      @default(autoincrement()) @id
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  coupon    coupon[]
+}
+
+model errorLog {
+  id           Int           @default(autoincrement()) @id
+  details      String
+  functionName String
+  type         errorLog_type
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now())
+}
+
+model heroGallery {
+  id                     Int      @default(autoincrement()) @id
+  hero                   Int?
+  photo                  String
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @default(now())
+  hero_heroToheroGallery hero?    @relation(fields: [hero], references: [id])
+
+  @@index([hero], name: "herogallery_hero_foreign")
+}
+
+model merchantCategory {
+  id                                  Int       @default(autoincrement()) @id
+  merchant                            Int?
+  category                            Int?
+  createdAt                           DateTime  @default(now())
+  updatedAt                           DateTime  @default(now())
+  category_categoryTomerchantCategory category? @relation(fields: [category], references: [id])
+  merchant_merchantTomerchantCategory merchant? @relation(fields: [merchant], references: [id])
+
+  @@index([category], name: "merchantcategory_category_foreign")
+  @@index([merchant], name: "merchantcategory_merchant_foreign")
+}
+
+model merchantLocality {
+  id                                  Int       @default(autoincrement()) @id
+  merchant                            Int?
+  locality                            String
+  createdAt                           DateTime  @default(now())
+  updatedAt                           DateTime  @default(now())
+  merchant_merchantTomerchantLocality merchant? @relation(fields: [merchant], references: [id])
+
+  @@index([merchant], name: "merchantlocality_merchant_foreign")
+}
+
+model merchantTag {
+  id                             Int       @default(autoincrement()) @id
+  merchant                       Int?
+  tag                            Int?
+  createdAt                      DateTime  @default(now())
+  updatedAt                      DateTime  @default(now())
+  merchant_merchantTomerchantTag merchant? @relation(fields: [merchant], references: [id])
+  tag_merchantTagTotag           tag?      @relation(fields: [tag], references: [id])
+
+  @@index([merchant], name: "merchanttag_merchant_foreign")
+  @@index([tag], name: "merchanttag_tag_foreign")
+}
+
+model orderProduct {
+  id                            Int      @default(autoincrement()) @id
+  order                         Int?
+  product                       Int?
+  coupon                        Int?
+  price                         Float    @default(0.00)
+  markUpPrice                   Float    @default(0.00)
+  quantity                      Float    @default(0.00)
+  subtotal                      Float    @default(0.00)
+  markUpTotal                   Float    @default(0.00)
+  createdAt                     DateTime @default(now())
+  updatedAt                     DateTime @default(now())
+  coupon_couponToorderProduct   coupon?  @relation(fields: [coupon], references: [id])
+  order_orderToorderProduct     order?   @relation(fields: [order], references: [id])
+  product_orderProductToproduct product? @relation(fields: [product], references: [id])
+
+  @@index([coupon], name: "orderproduct_coupon_foreign")
+  @@index([order], name: "orderproduct_order_foreign")
+  @@index([product], name: "orderproduct_product_foreign")
+}
+
+model orderStatus {
+  id             Int              @default(autoincrement()) @id
+  name           String           @unique
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @default(now())
+  heroesLocation heroesLocation[]
+  order          order[]
+  transaksyon    transaksyon[]
+}
+
+model paidCollectible {
+  id                         Int      @default(autoincrement()) @id
+  hero                       Int?
+  amount                     Float    @default(0.00)
+  createdAt                  DateTime @default(now())
+  updatedAt                  DateTime @default(now())
+  hero_heroTopaidCollectible hero?    @relation(fields: [hero], references: [id])
+
+  @@index([hero], name: "paidcollectible_hero_foreign")
+}
+
+model paidPayable {
+  id                             Int       @default(autoincrement()) @id
+  merchant                       Int?
+  amount                         Float     @default(0.00)
+  createdAt                      DateTime  @default(now())
+  updatedAt                      DateTime  @default(now())
+  merchant_merchantTopaidPayable merchant? @relation(fields: [merchant], references: [id])
+
+  @@index([merchant], name: "paidpayable_merchant_foreign")
+}
+
+model branch {
+  id             Int              @default(autoincrement()) @id
+  name           String           @unique
+  active         Boolean          @default(true)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @default(now())
+  analytic       analytic[]
+  expense        expense[]
+  hero           hero[]
+  heroesLocation heroesLocation[]
+  merchant       merchant[]
+  order          order[]
+}
+
+model userAnalytic {
+  id                      Int      @default(autoincrement()) @id
+  user                    Int?
+  total                   Float    @default(0.00)
+  netShare                Float    @default(0.00)
+  semicolonShare          Float    @default(0.00)
+  shareDate               DateTime
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @default(now())
+  user_userTouserAnalytic user?    @relation(fields: [user], references: [id])
+
+  @@index([user], name: "useranalytic_user_foreign")
+}
+
+model heroesLocation {
+  id                                      Int          @default(autoincrement()) @id
+  hero                                    Int
+  merchant                                Int?
+  orderStatus                             Int?
+  branch                                  Int?
+  lat                                     Float        @default(0.000000)
+  lng                                     Float        @default(0.000000)
+  createdAt                               DateTime     @default(now())
+  updatedAt                               DateTime     @default(now())
+  branch_branchToheroesLocation           branch?      @relation(fields: [branch], references: [id])
+  hero_heroToheroesLocation               hero         @relation(fields: [hero], references: [id])
+  merchant_heroesLocationTomerchant       merchant?    @relation(fields: [merchant], references: [id])
+  orderStatus_heroesLocationToorderStatus orderStatus? @relation(fields: [orderStatus], references: [id])
+
+  @@index([branch], name: "heroeslocation_branch_foreign")
+  @@index([hero], name: "heroeslocation_hero_foreign")
+  @@index([merchant], name: "heroeslocation_merchant_foreign")
+  @@index([orderStatus], name: "heroeslocation_orderstatus_foreign")
+}
+
+enum hero_sex {
+  M
+  F
+}
+
+enum merchant_status {
+  OPEN
+  CLOSE
+}
+
+enum user_type {
+  CUSTOMER
+  HERO
+  MERCHANT_ALLY
+  LOCAL_ADMIN
+  NATL_ADMIN
+}
+
+enum user_status {
+  PENDING
+  ACCEPT
+  REJECT
+}
+
+enum errorLog_type {
+  M
+  Q
+}

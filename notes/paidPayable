@@ -1,0 +1,24 @@
+mutation {
+  payPayable(merchant: 1, amount: 100) {
+    id
+    merchant {
+      id
+      owner
+      user {
+        id
+        name
+      }
+    }
+    amount
+    createdAt
+    updatedAt
+  }
+}
+
+mutation {
+  deletePaidPayable(id: 2) {
+    id
+    amount
+    updatedAt
+  }
+}

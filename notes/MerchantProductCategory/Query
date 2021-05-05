@@ -1,0 +1,34 @@
+query {
+  merchantProductCategoriesPagination(merchant: 15, name: "a", first: 1, skip: 0){
+    list {
+      id
+      merchant {
+        name
+      }
+      name
+    }
+    count
+  }
+}
+
+query {
+  merchantProductCategories(merchant: 15, name: "a", first: 1, skip: 0){    
+    id
+    merchant {
+      name
+    }
+    name
+  }
+}
+
+query {
+  merchantProductCategory(id: 1){    
+    id
+    merchant {
+      name
+    }
+    name
+  }
+}
+
+

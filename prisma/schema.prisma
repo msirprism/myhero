@@ -1,0 +1,811 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model analytic {
+  id                      Int      @default(autoincrement()) @id
+  branch                  Int?
+  myHeroEarning           Float    @default(0.00)
+  semicolonShare          Float    @default(0.00)
+  myHeroAsset             Float    @default(0.00)
+  ramonShare              Float    @default(0.00)
+  felixShare              Float    @default(0.00)
+  vinceShare              Float    @default(0.00)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @default(now())
+  branch_analyticTobranch branch?  @relation(fields: [branch], references: [id])
+
+  @@index([branch], name: "analytic_branch_foreign")
+}
+
+model category {
+  id               Int                @default(autoincrement()) @id
+  name             String             @unique
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @default(now())
+  merchantCategory merchantCategory[]
+}
+
+model costing {
+  id                      Int      @default(autoincrement()) @id
+  firstKmCost             Float    @default(0.00)
+  excessPerKmCost         Float    @default(0.00)
+  appFee                  Float    @default(0.00)
+  errandsFlatRate         Float    @default(0.00)
+  errandsAppFee           Float    @default(0.00)
+  errandsExcessPerKmCost  Float    @default(0.00)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @default(now())
+}
+
+model coupon {
+  id                                Int              @default(autoincrement()) @id
+  couponType                        Int?
+  couponStatus                      Int?
+  merchant                          Int?
+  code                              String           @unique
+  name                              String
+  active                            Boolean          @default(true)
+  discount                          Int              @default(0)
+  fixedDeduction                    Int              @default(0)
+  usageLimit                        Int              @default(1)
+  minimumSpend                      Float            @default(0.00)
+  numberOfUse                       Int              @default(0)
+  hasExpiry                         Boolean          @default(false)
+  expiry                            DateTime
+  createdAt                         DateTime         @default(now())
+  updatedAt                         DateTime         @default(now())
+  couponStatus_couponTocouponStatus couponStatus?    @relation(fields: [couponStatus], references: [id])
+  couponType_couponTocouponType     couponType?      @relation(fields: [couponType], references: [id])
+  merchant_couponTomerchant         merchant?        @relation(fields: [merchant], references: [id])
+  couponLocality                    couponLocality[]
+  order                             order[]
+  orderProduct                      orderProduct[]
+
+  @@index([couponStatus], name: "coupon_couponstatus_foreign")
+  @@index([couponType], name: "coupon_coupontype_foreign")
+  @@index([merchant], name: "coupon_merchant_foreign")
+}
+
+model expense {
+  id                     Int      @default(autoincrement()) @id
+  branch                 Int?
+  name                   String
+  amount                 Float    @default(0.00)
+  amountStr              String
+  expenseDate            DateTime
+  photo                  String?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @default(now())
+  branch_branchToexpense branch?  @relation(fields: [branch], references: [id])
+
+  @@index([branch], name: "expense_branch_foreign")
+}
+
+model hero {
+  id                     Int               @default(autoincrement()) @id
+  user                   Int?
+  branch                 Int?
+  code                   String?           @unique
+  heroRole               hero_heroRole     @default(food_delivery)
+  sex                    hero_sex          @default(M)
+  birthday               DateTime
+  nbiNo                  String?
+  policeClearanceNo      String?
+  plateNo                String?
+  licenseNo              String?
+  lat                    Float?
+  lng                    Float?
+  city                   String?
+  locality               String?
+  amount                 Float             @default(0.00)
+  earnings               Float             @default(0.00)
+  collectibles           Float             @default(0.00)
+  paidCollectibles       Float             @default(0.00)
+  remainingCollectibles  Float             @default(0.00)
+  isAvailable            Boolean           @default(true)
+  active                 Boolean           @default(true)
+  isRescuer              Boolean           @default(false)
+  photoNbiNo             String?
+  photoPoliceClearanceNo String?
+  photoPlateNo           String?
+  photoLicenseNo         String?
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime          @default(now())
+  branch_branchTohero    branch?           @relation(fields: [branch], references: [id])
+  user_heroTouser        user?             @relation(fields: [user], references: [id])
+  errand                 errand[]
+  heroesLocation         heroesLocation[]
+  heroGallery            heroGallery[]
+  order                  order[]
+  paidCollectible        paidCollectible[]
+  riderReview            riderReview[]
+
+  @@index([branch], name: "hero_branch_foreign")
+  @@index([user], name: "hero_user_foreign")
+}
+
+model merchant {
+  id                      Int                       @default(autoincrement()) @id
+  user                    Int?
+  branch                  Int?
+  name                    String
+  owner                   String
+  havePermit              Boolean                   @default(false)
+  myHeroShare             Int                       @default(0)
+  myHeroFreeDeliveryShare Float                     @default(0.00)
+  minimumSpend            Float                     @default(0.00)
+  isTrending              Boolean                   @default(false)
+  trendingFlatRate        Float                     @default(0.00)
+  trendingAppFee          Float                     @default(0.00)
+  riderShare              Float                     @default(0.00)
+  collection              Float                     @default(0.00)
+  earnings                Float                     @default(0.00)
+  remittance              Float                     @default(0.00)
+  paidPayables            Float                     @default(0.00)
+  remainingPayables       Float                     @default(0.00)
+  address                 String?
+  lat                     Float?
+  lng                     Float?
+  isElite                 Boolean                   @default(false)
+  city                    String?
+  businessPermitNo        String?
+  active                  Boolean                   @default(true)
+  photo                   String?
+  trendingPhoto           String?
+  status                  merchant_status           @default(OPEN)
+  isPopular               Boolean                   @default(false)
+  monday                  Boolean                   @default(true)
+  tuesday                 Boolean                   @default(true)
+  wednesday               Boolean                   @default(true)
+  thursday                Boolean                   @default(true)
+  friday                  Boolean                   @default(true)
+  saturday                Boolean                   @default(true)
+  sunday                  Boolean                   @default(true)
+  openTimeMonday          DateTime?
+  closeTimeMonday         DateTime?
+  openTimeTuesday         DateTime?
+  closeTimeTuesday        DateTime?
+  openTimeWednesday       DateTime?
+  closeTimeWednesday      DateTime?
+  openTimeThursday        DateTime?
+  closeTimeThursday       DateTime?
+  openTimeFriday          DateTime?
+  closeTimeFriday         DateTime?
+  openTimeSaturday        DateTime?
+  closeTimeSaturday       DateTime?
+  openTimeSunday          DateTime?
+  closeTimeSunday         DateTime?
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @default(now())
+  branch_branchTomerchant branch?                   @relation(fields: [branch], references: [id])
+  user_merchantTouser     user?                     @relation(fields: [user], references: [id])
+  addon                   addon[]
+  deliveryCounter         deliveryCounter[]
+  coupon                  coupon[]
+  heroesLocation          heroesLocation[]
+  merchantCategory        merchantCategory[]
+  merchantLocality        merchantLocality[]
+  merchantProductCategory merchantProductCategory[]
+  merchantProductSize     merchantProductSize[]
+  merchantTag             merchantTag[]
+  order                   order[]
+  paidPayable             paidPayable[]
+  product                 product[]
+  productAddon            productAddon[]
+  productCategory         productCategory[]
+  riderReview             riderReview[]
+
+  @@index([branch], name: "merchant_branch_foreign")
+  @@index([user], name: "merchant_user_foreign")
+}
+
+model migrations {
+  id        Int    @default(autoincrement()) @id
+  migration String
+  batch     Int
+}
+
+model order {
+  id                                Int            @default(autoincrement()) @id
+  customer                          Int?
+  hero                              Int?
+  merchant                          Int?
+  orderStatus                       Int?
+  branch                            Int?
+  coupon                            Int?
+  isForSomeone                      Boolean        @default(false)
+  receiverFullName                  String?
+  receiverContactNumber             String?
+  locality                          String?
+  heroCode                          String?
+  address                           String
+  landmark                          String?
+  customerLat                       Float
+  customerLng                       Float
+  isTrending                        Boolean        @default(false)
+  riderShare                        Float          @default(0.00)
+  deliveryFee                       Float          @default(0.00)
+  excessDeliveryFee                 Float          @default(0.00)
+  trendingDeliveryFee               Float          @default(0.00)
+  origDeliveryFee                   Float          @default(0.00)
+  freeDeliveryCost                  Float          @default(0.00)
+  gteMinSpend                       Boolean        @default(false)
+  seen                              Boolean        @default(false)
+  total                             Float          @default(0.00)
+  finalTotal                        Float          @default(0.00)
+  origFinalTotal                    Float          @default(0.00)
+  markUpTotal                       Float          @default(0.00)
+  appFee                            Float          @default(0.00)
+  merchantAmount                    Float          @default(0.00)
+  merchantEarnings                  Float          @default(0.00)
+  merchantEarningsTotal             Float          @default(0.00)
+  merchantRemittance                Float          @default(0.00)
+  merchantTrendingCommissionEarning Float          @default(0.00)
+  heroAmount                        Float          @default(0.00)
+  heroEarnings                      Float          @default(0.00)
+  heroEarningsTotal                 Float          @default(0.00)
+  heroCollectibles                  Float          @default(0.00)
+  heroTrendingCommissionEarning     Float          @default(0.00)
+  couponsAmount                     Float          @default(0.00)
+  myHeroIncome                      Float          @default(0.00)
+  riderIncome                       Float          @default(0.00)
+  merchantToRiderKm                 Float          @default(0.00)
+  merchantToCustomerKm              Float          @default(0.00)
+  lastCheckHero                     Int?
+  customerRequest                   String?
+  estPrepTime                       Float          @default(0.00)
+  createdAt                         DateTime       @default(now())
+  updatedAt                         DateTime       @default(now())
+  branch_branchToorder              branch?        @relation(fields: [branch], references: [id])
+  coupon_couponToorder              coupon?        @relation(fields: [coupon], references: [id])
+  user                              user?          @relation(fields: [customer], references: [id])
+  hero_heroToorder                  hero?          @relation(fields: [hero], references: [id])
+  merchant_merchantToorder          merchant?      @relation(fields: [merchant], references: [id])
+  orderStatus_orderToorderStatus    orderStatus?   @relation(fields: [orderStatus], references: [id])
+  orderAddon                        orderAddon[]
+  orderProduct                      orderProduct[]
+  riderReview                       riderReview[]
+  transaksyon                       transaksyon[]
+
+  @@index([branch], name: "order_branch_foreign")
+  @@index([coupon], name: "order_coupon_foreign")
+  @@index([customer], name: "order_customer_foreign")
+  @@index([hero], name: "order_hero_foreign")
+  @@index([merchant], name: "order_merchant_foreign")
+  @@index([orderStatus], name: "order_orderstatus_foreign")
+}
+
+model percent {
+  id                        Int      @default(autoincrement()) @id
+  ramonSemicolonShare       Float    @default(0.00)
+  ramonMyHeroEarning        Float    @default(0.00)
+  ramonShareFromNet         Float    @default(0.00)
+  felixSemicolonShare       Float    @default(0.00)
+  felixMyHeroEarning        Float    @default(0.00)
+  felixShareFromNet         Float    @default(0.00)
+  vinceSemicolonShare       Float    @default(0.00)
+  vinceMyHeroEarning        Float    @default(0.00)
+  vinceShareFromNet         Float    @default(0.00)
+  myHeroAssetSemicolonShare Float    @default(0.00)
+  myHeroAssetMyHeroEarning  Float    @default(0.00)
+  myHeroAssetShareFromNet   Float    @default(0.00)
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @default(now())
+}
+
+model product {
+  id                         Int               @default(autoincrement()) @id
+  merchant                   Int?
+  name                       String
+  price                      Float             @default(0.00)
+  markUpPrice                Float             @default(0.00)
+  priceWithMarkUp            Float             @default(0.00)
+  description                String?
+  isAvailable                Boolean           @default(false)
+  promo                      Float             @default(0.00)
+  active                     Boolean           @default(false)
+  estPrepTime                Float             @default(0.00)
+  addonType                  product_addonType @default(MULTIPLE)
+  photo                      String?
+  hasSugarLevel              Boolean           @default(false)
+  createdAt                  DateTime          @default(now())
+  updatedAt                  DateTime          @default(now())
+  merchant_merchantToproduct merchant?         @relation(fields: [merchant], references: [id])
+  orderAddon                 orderAddon[]
+  orderProduct               orderProduct[]
+  productAddon               productAddon[]
+  productCategory            productCategory[]
+  productSize                productSize[]
+
+  @@index([merchant], name: "product_merchant_foreign")
+}
+
+model tag {
+  id          Int           @default(autoincrement()) @id
+  name        String        @unique
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now())
+  merchantTag merchantTag[]
+}
+
+model transaksyon {
+  id                                   Int          @default(autoincrement()) @id
+  order                                Int?
+  orderStatus                          Int?
+  createdAt                            DateTime     @default(now())
+  updatedAt                            DateTime     @default(now())
+  order_orderTotransaksyon             order?       @relation(fields: [order], references: [id])
+  orderStatus_orderStatusTotransaksyon orderStatus? @relation(fields: [orderStatus], references: [id])
+
+  @@index([order], name: "transaksyon_order_foreign")
+  @@index([orderStatus], name: "transaksyon_orderstatus_foreign")
+}
+
+model user {
+  id                     Int            @default(autoincrement()) @id
+  name                   String
+  email                  String?        @unique
+  contactNumber          String         @unique
+  status                 user_status    @default(PENDING)
+  type                   user_type      @default(CUSTOMER)
+  password               String
+  otpCode                String?        @unique
+  photo                  String?
+  validIdImg             String?
+  isShareholder          Boolean        @default(false)
+  netShare               Float          @default(0.00)
+  readableNetShare       Float          @default(0.00)
+  semicolonShare         Float          @default(0.00)
+  readableSemicolonShare Float          @default(0.00)
+  firebaseToken          String?
+  child_id               Int            @default(0)
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime       @default(now())
+  errand                 errand[]
+  hero                   hero[]
+  merchant               merchant[]
+  order                  order[]
+  riderReview            riderReview[]
+  userAnalytic           userAnalytic[]
+}
+
+model app {
+  id             Int      @default(autoincrement()) @id
+  appEnv         String
+  androidVersion String
+  appleVersion   String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now())
+}
+
+model branch {
+  id             Int              @default(autoincrement()) @id
+  name           String           @unique
+  riderSystem    String           @default("NEAREST_TO_MERCHANT")
+  radiusLimitKm  Float            @default(1.00)
+  active         Boolean          @default(true)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @default(now())
+  analytic       analytic[]
+  expense        expense[]
+  hero           hero[]
+  heroesLocation heroesLocation[]
+  merchant       merchant[]
+  order          order[]
+}
+
+model addon {
+  id                       Int            @default(autoincrement()) @id
+  merchant                 Int?
+  name                     String
+  price                    Float          @default(0.00)
+  markUpPrice              Float          @default(0.00)
+  priceWithMarkUp          Float          @default(0.00)
+  onlyOnePerProduct        Boolean        @default(true)
+  maxPieces                Int            @default(1)
+  active                   Boolean        @default(true)
+  isAvailable              Boolean        @default(true)
+  createdAt                DateTime       @default(now())
+  updatedAt                DateTime       @default(now())
+  merchant_addonTomerchant merchant?      @relation(fields: [merchant], references: [id])
+  orderAddon               orderAddon[]
+  productAddon             productAddon[]
+
+  @@index([merchant], name: "addon_merchant_foreign")
+}
+
+model couponStatus {
+  id        Int      @default(autoincrement()) @id
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  coupon    coupon[]
+}
+
+model couponType {
+  id        Int      @default(autoincrement()) @id
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  coupon    coupon[]
+}
+
+model deliveryCounter {
+  id                                 Int       @default(autoincrement()) @id
+  merchant                           Int?
+  noOfDeliveries                     Int       @default(0)
+  date                               DateTime
+  createdAt                          DateTime  @default(now())
+  updatedAt                          DateTime  @default(now())
+  merchant_deliveryCounterTomerchant merchant? @relation(fields: [merchant], references: [id])
+  
+  @@index([merchant], name: "deliverycounter_merchant_foreign")
+}
+
+model errand {
+  id                    Int      @default(autoincrement()) @id
+  customer              Int?
+  hero                  Int?
+  heroCode              String?
+  address               String
+  landmark              String?
+  message               String
+  errandsFee            Float    @default(0.00)
+  distance              Float    @default(0.00)
+  customerLat           Float
+  customerLng           Float
+  receiverFullName      String?
+  receiverContactNumber String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @default(now())
+  user                  user?    @relation(fields: [customer], references: [id])
+  hero_errandTohero     hero?    @relation(fields: [hero], references: [id])
+  
+  @@index([customer], name: "errand_customer_foreign")
+  @@index([hero], name: "errand_hero_foreign")
+}
+
+model errorLog {
+  id           Int           @default(autoincrement()) @id
+  details      String
+  functionName String
+  type         errorLog_type
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now())
+}
+
+model heroesLocation {
+  id                                      Int          @default(autoincrement()) @id
+  hero                                    Int
+  merchant                                Int?
+  orderStatus                             Int?
+  branch                                  Int?
+  lat                                     Float        @default(0.000000)
+  lng                                     Float        @default(0.000000)
+  createdAt                               DateTime     @default(now())
+  updatedAt                               DateTime     @default(now())
+  branch_branchToheroesLocation           branch?      @relation(fields: [branch], references: [id])
+  hero_heroToheroesLocation               hero         @relation(fields: [hero], references: [id])
+  merchant_heroesLocationTomerchant       merchant?    @relation(fields: [merchant], references: [id])
+  orderStatus_heroesLocationToorderStatus orderStatus? @relation(fields: [orderStatus], references: [id])
+
+  @@index([branch], name: "heroeslocation_branch_foreign")
+  @@index([hero], name: "heroeslocation_hero_foreign")
+  @@index([merchant], name: "heroeslocation_merchant_foreign")
+  @@index([orderStatus], name: "heroeslocation_orderstatus_foreign")
+}
+
+model heroGallery {
+  id                     Int      @default(autoincrement()) @id
+  hero                   Int?
+  photo                  String
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @default(now())
+  hero_heroToheroGallery hero?    @relation(fields: [hero], references: [id])
+
+  @@index([hero], name: "herogallery_hero_foreign")
+}
+
+model merchantCategory {
+  id                                  Int       @default(autoincrement()) @id
+  merchant                            Int?
+  category                            Int?
+  createdAt                           DateTime  @default(now())
+  updatedAt                           DateTime  @default(now())
+  category_categoryTomerchantCategory category? @relation(fields: [category], references: [id])
+  merchant_merchantTomerchantCategory merchant? @relation(fields: [merchant], references: [id])
+
+  @@index([category], name: "merchantcategory_category_foreign")
+  @@index([merchant], name: "merchantcategory_merchant_foreign")
+}
+
+model merchantLocality {
+  id                                  Int       @default(autoincrement()) @id
+  merchant                            Int?
+  locality                            String
+  createdAt                           DateTime  @default(now())
+  updatedAt                           DateTime  @default(now())
+  merchant_merchantTomerchantLocality merchant? @relation(fields: [merchant], references: [id])
+
+  @@index([merchant], name: "merchantlocality_merchant_foreign")
+}
+
+model merchantProductCategory {
+  id                                         Int               @default(autoincrement()) @id
+  merchant                                   Int?
+  name                                       String
+  createdAt                                  DateTime          @default(now())
+  updatedAt                                  DateTime          @default(now())
+  merchant_merchantTomerchantProductCategory merchant?         @relation(fields: [merchant], references: [id])
+  productCategory                            productCategory[]
+
+  @@index([merchant], name: "merchantproductcategory_merchant_foreign")
+}
+
+model merchantProductSize {
+  id                                     Int           @default(autoincrement()) @id
+  merchant                               Int?
+  name                                   String
+  price                                  Float         @default(0.00)
+  markUpPrice                            Float         @default(0.00)
+  priceWithMarkUp                        Float         @default(0.00)
+  active                                 Boolean       @default(true)
+  sortNumber                             Int           @default(1)
+  createdAt                              DateTime      @default(now())
+  updatedAt                              DateTime      @default(now())
+  merchant_merchantTomerchantProductSize merchant?     @relation(fields: [merchant], references: [id])
+  productSize                            productSize[]
+
+  @@index([merchant], name: "merchantproductsize_merchant_foreign")
+}
+
+model merchantTag {
+  id                             Int       @default(autoincrement()) @id
+  merchant                       Int?
+  tag                            Int?
+  createdAt                      DateTime  @default(now())
+  updatedAt                      DateTime  @default(now())
+  merchant_merchantTomerchantTag merchant? @relation(fields: [merchant], references: [id])
+  tag_merchantTagTotag           tag?      @relation(fields: [tag], references: [id])
+
+  @@index([merchant], name: "merchanttag_merchant_foreign")
+  @@index([tag], name: "merchanttag_tag_foreign")
+}
+
+model orderAddon {
+  id                                    Int           @default(autoincrement()) @id
+  order                                 Int?
+  orderProduct                          Int?
+  product                               Int?
+  addon                                 Int?
+  price                                 Float         @default(0.00)
+  markUpPrice                           Float         @default(0.00)
+  quantity                              Float         @default(0.00)
+  subtotal                              Float         @default(0.00)
+  markUpTotal                           Float         @default(0.00)
+  createdAt                             DateTime      @default(now())
+  updatedAt                             DateTime      @default(now())
+  addon_addonToorderAddon               addon?        @relation(fields: [addon], references: [id])
+  order_orderToorderAddon               order?        @relation(fields: [order], references: [id])
+  orderProduct_orderAddonToorderProduct orderProduct? @relation(fields: [orderProduct], references: [id])
+  product_orderAddonToproduct           product?      @relation(fields: [product], references: [id])
+
+  @@index([addon], name: "orderaddon_addon_foreign")
+  @@index([order], name: "orderaddon_order_foreign")
+  @@index([orderProduct], name: "orderaddon_orderproduct_foreign")
+  @@index([product], name: "orderaddon_product_foreign")
+}
+
+model orderProduct {
+  id                                    Int          @default(autoincrement()) @id
+  order                                 Int?
+  product                               Int?
+  productSize                           Int?
+  coupon                                Int?
+  price                                 Float        @default(0.00)
+  markUpPrice                           Float        @default(0.00)
+  quantity                              Float        @default(0.00)
+  subtotal                              Float        @default(0.00)
+  markUpTotal                           Float        @default(0.00)
+  sugarLevel                            Int          @default(0)
+  createdAt                             DateTime     @default(now())
+  updatedAt                             DateTime     @default(now())
+  coupon_couponToorderProduct           coupon?      @relation(fields: [coupon], references: [id])
+  order_orderToorderProduct             order?       @relation(fields: [order], references: [id])
+  product_orderProductToproduct         product?     @relation(fields: [product], references: [id])
+  productSize_orderProductToproductSize productSize? @relation(fields: [productSize], references: [id])
+  orderAddon                            orderAddon[]
+
+  @@index([coupon], name: "orderproduct_coupon_foreign")
+  @@index([order], name: "orderproduct_order_foreign")
+  @@index([product], name: "orderproduct_product_foreign")
+  @@index([productSize], name: "orderproduct_productsize_foreign")
+}
+
+model orderStatus {
+  id             Int              @default(autoincrement()) @id
+  name           String           @unique
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @default(now())
+  heroesLocation heroesLocation[]
+  order          order[]
+  transaksyon    transaksyon[]
+}
+
+model paidCollectible {
+  id                         Int      @default(autoincrement()) @id
+  hero                       Int?
+  amount                     Float    @default(0.00)
+  createdAt                  DateTime @default(now())
+  updatedAt                  DateTime @default(now())
+  hero_heroTopaidCollectible hero?    @relation(fields: [hero], references: [id])
+
+  @@index([hero], name: "paidcollectible_hero_foreign")
+}
+
+model paidPayable {
+  id                             Int       @default(autoincrement()) @id
+  merchant                       Int?
+  amount                         Float     @default(0.00)
+  createdAt                      DateTime  @default(now())
+  updatedAt                      DateTime  @default(now())
+  merchant_merchantTopaidPayable merchant? @relation(fields: [merchant], references: [id])
+
+  @@index([merchant], name: "paidpayable_merchant_foreign")
+}
+
+model productAddon {
+  id                              Int       @default(autoincrement()) @id
+  merchant                        Int?
+  product                         Int?
+  addon                           Int?
+  createdAt                       DateTime  @default(now())
+  updatedAt                       DateTime  @default(now())
+  addon_addonToproductAddon       addon?    @relation(fields: [addon], references: [id])
+  merchant_merchantToproductAddon merchant? @relation(fields: [merchant], references: [id])
+  product_productToproductAddon   product?  @relation(fields: [product], references: [id])
+
+  @@index([addon], name: "productaddon_addon_foreign")
+  @@index([merchant], name: "productaddon_merchant_foreign")
+  @@index([product], name: "productaddon_product_foreign")
+}
+
+model productCategory {
+  id                                                               Int                      @default(autoincrement()) @id
+  merchant                                                         Int?
+  merchantProductCategory                                          Int?
+  product                                                          Int?
+  createdAt                                                        DateTime                 @default(now())
+  updatedAt                                                        DateTime                 @default(now())
+  merchant_merchantToproductCategory                               merchant?                @relation(fields: [merchant], references: [id])
+  merchantProductCategory_merchantProductCategoryToproductCategory merchantProductCategory? @relation(fields: [merchantProductCategory], references: [id])
+  product_productToproductCategory                                 product?                 @relation(fields: [product], references: [id])
+
+  @@index([merchant], name: "productcategory_merchant_foreign")
+  @@index([merchantProductCategory], name: "productcategory_merchantproductcategory_foreign")
+  @@index([product], name: "productcategory_product_foreign")
+}
+
+model productSize {
+  id                                                   Int                  @default(autoincrement()) @id
+  merchantProductSize                                  Int?
+  product                                              Int?
+  name                                                 String
+  price                                                Float                @default(0.00)
+  markUpPrice                                          Float                @default(0.00)
+  priceWithMarkUp                                      Float                @default(0.00)
+  isAvailable                                          Boolean              @default(true)
+  active                                               Boolean              @default(true)
+  sortNumber                                           Int                  @default(1)
+  createdAt                                            DateTime             @default(now())
+  updatedAt                                            DateTime             @default(now())
+  merchantProductSize_merchantProductSizeToproductSize merchantProductSize? @relation(fields: [merchantProductSize], references: [id])
+  product_productToproductSize                         product?             @relation(fields: [product], references: [id])
+  orderProduct                                         orderProduct[]
+
+  @@index([merchantProductSize], name: "productsize_merchantproductsize_foreign")
+  @@index([product], name: "productsize_product_foreign")
+}
+
+model riderReview {
+  id                             Int       @default(autoincrement()) @id
+  order                          Int?
+  customer                       Int?
+  hero                           Int?
+  merchant                       Int?
+  rating                         Float     @default(0.00)
+  review                         String?
+  createdAt                      DateTime  @default(now())
+  updatedAt                      DateTime  @default(now())
+  user                           user?     @relation(fields: [customer], references: [id])
+  hero_heroToriderReview         hero?     @relation(fields: [hero], references: [id])
+  merchant_merchantToriderReview merchant? @relation(fields: [merchant], references: [id])
+  order_orderToriderReview       order?    @relation(fields: [order], references: [id])
+
+  @@index([customer], name: "riderreview_customer_foreign")
+  @@index([hero], name: "riderreview_hero_foreign")
+  @@index([merchant], name: "riderreview_merchant_foreign")
+  @@index([order], name: "riderreview_order_foreign")
+}
+
+model userAnalytic {
+  id                      Int      @default(autoincrement()) @id
+  user                    Int?
+  total                   Float    @default(0.00)
+  netShare                Float    @default(0.00)
+  semicolonShare          Float    @default(0.00)
+  shareDate               DateTime
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @default(now())
+  user_userTouserAnalytic user?    @relation(fields: [user], references: [id])
+
+  @@index([user], name: "useranalytic_user_foreign")
+}
+
+model couponLocality {
+  id                            Int      @default(autoincrement()) @id
+  coupon                        Int?
+  locality                      String
+  createdAt                     DateTime @default(now())
+  updatedAt                     DateTime @default(now())
+  coupon_couponTocouponLocality coupon?  @relation(fields: [coupon], references: [id])
+
+  @@index([coupon], name: "couponlocality_coupon_foreign")
+}
+
+model locality {
+  id            Int      @default(autoincrement()) @id
+  name          String   @unique
+  riderSystem   String   @default("QUEUEING_SYSTEM")
+  radiusLimitKm Float    @default(1.00)
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
+}
+
+enum hero_sex {
+  M
+  F
+}
+
+enum hero_heroRole {
+  food_delivery
+  errands
+}
+
+enum merchant_status {
+  OPEN
+  CLOSE
+}
+
+enum user_type {
+  CUSTOMER
+  HERO
+  MERCHANT_ALLY
+  LOCAL_ADMIN
+  NATL_ADMIN
+}
+
+enum user_status {
+  PENDING
+  ACCEPT
+  REJECT
+}
+
+enum product_addonType {
+  NONE
+  SINGLE
+  MULTIPLE
+}
+
+enum errorLog_type {
+  M
+  Q
+}

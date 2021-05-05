@@ -1,0 +1,111 @@
+/*
+Create merchantCategory
+*/
+
+mutation {
+    createMerchantCategory(
+        merchant_merchantTomerchantCategory: 1 
+        category_categoryTomerchantCategory: 1
+    ){
+        id
+        merchant {
+            id
+            owner
+        }
+        category {
+            id
+            name
+        }
+        createdAt
+        updatedAt
+    }
+}
+
+/*
+Update
+*/
+
+mutation {
+    updateMerchantCategory(id: 4 merchant_merchantTomerchantCategory: 4 category_categoryTomerchantCategory: 2){
+    id
+    merchant {
+      id
+    }
+    category {
+      id
+    }
+    createdAt
+    updatedAt
+  } 
+}
+
+/*
+Get one record by id
+*/
+
+query {
+  merchantCategory(id: 1){
+    id
+    merchant {
+      id
+      owner
+      user {
+        id
+        name
+      }
+    }
+    category {
+      id
+      name
+    }
+    createdAt
+    updatedAt
+  }
+}
+
+/*
+Get many records by category id
+*/
+
+query {
+  merchantCategories(category: 1){
+    id
+    merchant {
+      id
+      owner
+      user {
+        id
+        name
+      }
+    }
+    category {
+      id
+      name
+    }
+    createdAt
+    updatedAt
+  }
+}
+
+query {
+  merchantCategoriesPagination(category: 1){
+    count
+    list {
+      id
+      merchant {
+        id
+        owner
+        user {
+          id
+          name
+        }
+      }
+      category {
+        id
+        name
+      }
+      createdAt
+      updatedAt
+    }
+  }
+}

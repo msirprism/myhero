@@ -1,0 +1,110 @@
+/**Get all add-ons of a specific product**/
+query {
+  productAddons(product: 62) {
+    id
+    product {
+      name
+    }
+    merchant {
+      name
+    }
+    addon {
+      name
+    }
+  }
+}
+
+/**Get all products of selected add-ons**/
+query {
+  productAddons(addons: [62, 63]) {
+    id
+    product {
+      name
+    }
+    merchant {
+      name
+    }
+    addon {
+      name
+    }
+  }
+}
+
+//Get all products which do not belong to selected add-ons
+query {
+  products(merchant: 15, notInAddons: [1, 2]) {
+    id
+    name
+    merchant {
+      id
+      name
+    }
+    productCategories {
+      id
+    }
+  }
+}
+
+/**Paginate all add-ons of a specific product**/
+query {
+  productAddonsPagination(product: 62, skip: 0, first: 100) {
+    count
+    list {
+      id
+      product {
+        name
+      }
+      merchant {
+        name
+      }
+      addon {
+        name
+      } 
+    }
+  }
+}
+
+//Get all available and active add-ons of a specific product
+query{
+  productAddons(product: 62, isAvailable: true, active: true) {
+    id
+    product {
+      name
+    }
+    addon {
+      name
+    }
+  }
+}
+
+//Paginate all available and active add-ons of a specific product
+query{
+  productAddonsPagination(product: 62, isAvailable: true, active: true) {
+    count
+    list {  
+      id
+      product {
+        name
+      }
+      addon {
+        name
+      }
+    }
+  }
+}
+
+/**Find product add-on**/
+query {
+  productAddon(id: 1) {
+      id
+      product {
+        name
+      }
+      merchant {
+        name
+      }
+      addon {
+        name
+      } 
+  }
+}

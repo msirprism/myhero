@@ -1,0 +1,35 @@
+mutation {
+	createProductAddon(merchantID: 15, productID: 53, addonID: 1) {
+    id
+    product {
+      name
+    }
+    addon {
+      name
+    }
+  }
+}
+
+mutation {
+	updateProductAddon(id: 1, productID: 53, addonID: 1) {
+    id
+    product {
+      name
+    }
+    addon {
+      name
+    }
+  }
+}
+
+mutation {
+	deleteProductAddon(id: 2) {
+    id
+    product {
+      name
+    }
+    addon {
+      name
+    }
+  }
+}

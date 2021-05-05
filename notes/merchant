@@ -1,0 +1,80 @@
+/*
+Creat merchant + user
+*/
+mutation {
+    createMerchantUser(
+        name: "Natsu's Dragon BBQ Grill" 
+        email: "natsu@ft.com"
+        password: "123456"
+        contactNumber: "820-31-89", 
+        active: true, 
+        owner: "Natsu Dragneel",  
+        address: "Magnolia", 
+        lat: 0.55
+        lng: 1.29 
+        status: OPEN
+        isElite: false
+    ) {
+        id
+        user {
+            id
+            name
+        }
+        merchantCategories {
+            category {
+                id
+                name
+            }
+        }
+        owner
+        createdAt
+        updatedAt
+    }
+}
+
+/*Select one merchant*/
+query {
+  merchant(id: 1) {
+    id
+    owner
+    products {
+      id
+      name
+    }
+    collection
+    earnings
+    remittance
+    paidPayables
+    remainingPayables  
+    isElite
+  }
+}
+
+/**
+Update merchant schedule
+**/
+mutation {
+  updateMerchantSchedule(
+    id: 15,
+    schedules: [
+      {
+        day: monday,
+        isOpen: true,
+        openTime: "1970-01-01T10:00:00.000Z",
+        closeTime: "1970-01-01T18:00:00.000Z",
+      },
+    ]
+  ){
+    id
+    name
+    monday
+    openTimeMonday
+    closeTimeMonday
+    tuesday
+    openTimeTuesday
+    closeTimeTuesday
+    sunday
+    openTimeSunday
+    closeTimeSunday
+  }
+}

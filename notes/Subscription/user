@@ -1,0 +1,15 @@
+subscription {
+  updatedUser(user: 8){
+    id
+    name
+    active
+  }
+}
+
+subscription {
+	newUser {
+		id
+		name
+	}
+}
+

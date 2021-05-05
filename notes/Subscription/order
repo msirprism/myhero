@@ -1,0 +1,144 @@
+subscription {
+  updatedOrder (id: 1){
+    wordsOfWisdom
+    order {
+      id
+      orderStatus {
+        id
+        name
+      }
+      createdAt
+      updatedAt
+      customer {
+        id
+        name
+      }
+      hero {
+        id
+        user {
+          id
+          name
+        }
+      }
+      merchant {
+        id
+        user {
+          id
+          name
+        }
+        owner
+      }
+    }
+  }
+}
+
+///for rider
+subscription {
+  orderStatusChanged(orderStatus: 2){
+    wordsOfWisdom
+    order {
+      id
+      orderStatus {
+        id
+        name
+      }
+      createdAt
+      updatedAt
+      customer {
+        id
+        name
+      }
+      hero {
+        id
+        user {
+          id
+          name
+        }
+      }
+      merchant {
+        id
+        user {
+          id
+          name
+        }
+        owner
+      }
+    }
+  }
+}
+
+//for merchant
+subscription {
+  orderToMe(merchant: 1){
+    wordsOfWisdom
+    order {
+      id
+      orderStatus {
+        id
+        name
+      }
+      createdAt
+      updatedAt
+      customer {
+        id
+        name
+      }
+      hero {
+        id
+        user {
+          id
+          name
+        }
+      }
+      merchant {
+        id
+        user {
+          id
+          name
+        }
+        owner
+      }
+    }
+  }
+}
+
+//for hero
+subscription {
+  assignToHero(hero: 2) {
+    wordsOfWisdom
+    order {
+      id
+      orderStatus {
+        id
+        name
+      }
+      createdAt
+      updatedAt
+      customer {
+        id
+        name
+      }
+      hero {
+        id
+        user {
+          id
+          name
+        }
+      }
+      merchant {
+        id
+        user {
+          id
+          name
+        }
+        owner
+      }
+    }
+  }
+}
+
+subscription {
+  reloadMobile {
+    cronGreeting
+  }
+}

@@ -1,0 +1,128 @@
+mutation{
+  createOrder(
+    user: 3
+    merchant: 15
+    address:"Test Address"
+    landmark:"Test Landmark"
+    customerLat: 0.1
+    customerLng: 10.00 
+    total: 0 
+    deliveryFee: 11
+    orderProducts: [
+      {
+        product: 53
+        price: 8
+        markUpPrice: 1
+        quantity: 1,
+        orderAddons: [] //NOTE: It is important to explicitly put empty orderAddons array
+      },
+      {
+        product: 62
+        price: 12
+        markUpPrice: 2
+        quantity: 1,
+        orderAddons: [
+          {
+            addon: 1,
+            product: 62,
+            price: 3 
+            markUpPrice: 2
+            quantity: 1,
+          },
+          {
+            addon: 2,
+            product: 62,
+            price: 3
+            markUpPrice: 2
+            quantity: 1,
+          }
+        ] 
+      }
+    ]
+  ){
+    id
+    customer {
+      id
+      name
+    }
+    hero {
+      id
+      user {
+        id
+        name
+      }
+    }
+    merchant {
+      id
+      user {
+        id
+        name
+      }
+      owner
+    }
+    orderStatus {
+      id
+      name
+    }
+    orderProducts {
+      id
+      product {
+        id
+        name
+      }
+      coupon {
+        id
+        name
+      }
+      price
+      markUpPrice
+      quantity
+      subtotal
+      markUpTotal
+      orderAddons {
+        id
+        addon {
+          name
+        }
+        price
+        markUpPrice
+        markUpTotal
+        subtotal
+      }
+    }
+    transaksyons {
+      id
+      order {
+        id
+      }
+      status {
+        id
+        name
+      }
+    }
+    total
+    finalTotal
+    markUpTotal
+    createdAt
+    updatedAt
+  }
+}
+
+mutation {
+  updateOrderAddons(
+    orderId: 4, 
+    selectedOrderAddons:[{id: 8, newQuantity: 0}]) {
+    id
+    orderProducts {
+      id
+      orderAddons {
+        id
+        price
+        markUpPrice
+        quantity
+        subtotal
+        markUpTotal
+      }
+    }
+  }
+}

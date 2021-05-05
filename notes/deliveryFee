@@ -1,0 +1,3 @@
+query {
+  getDeliveryFee(km: 3)
+}

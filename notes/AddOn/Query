@@ -1,0 +1,57 @@
+/**Get all add-ons under a specific merchant**/
+query {
+  addons (merchant: 15){
+    id
+    name
+    price
+    priceWithMarkUp
+    markUpPrice
+    isAvailable
+    active
+    productAddons {
+      product {
+        name
+      }
+    }
+  }
+}
+
+/**Paginate add-ons under a specific merchant**/
+query {
+  addonsPagination(merchant: 15, skip: 0, first: 100){
+    count
+    list {
+      id
+      name
+      price
+      priceWithMarkUp
+      markUpPrice
+      isAvailable
+      active
+      productAddons {
+        product {
+          name
+        }
+      } 
+    }
+  }
+}
+
+/**Find add-on**/
+query {
+  addon(id: 1){
+      id
+      name
+      price
+      priceWithMarkUp
+      markUpPrice
+      isAvailable
+      active
+      productAddons {
+        product {
+          name
+        }
+      } 
+    
+  }
+}

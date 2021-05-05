@@ -1,0 +1,47 @@
+query {
+  productCategories(merchant: 15, merchantProductCategories: [1, 2, 3]) {
+    id
+    merchant {
+      name
+    }
+    merchantProductCategory {
+      name
+    }
+    product {
+      name
+    }
+  }
+}
+
+query {
+  productCategoriesPagination(merchant: 15, merchantProductCategories: [5, 6], first: 1) {
+    count
+    list {
+      id
+      merchant {
+        name
+      }
+      merchantProductCategory {
+        name
+      }
+      product {
+        name
+      }  
+    }
+  }
+}
+
+//Get all products which do not belong to selected merchant product categories
+query {
+  products(merchant: 15, notInMerchantProductCategories: [1, 2]) {
+    id
+    name
+    merchant {
+      id
+      name
+    }
+    productCategories {
+      id
+    }
+  }
+}

@@ -1,0 +1,18 @@
+mutation {
+  createUserMerchant(
+    name: "Bellemeri's Tangerine" 
+    email: "bellemeri@op.com"
+    password: "123456"
+    contactNumber: "820-31-89"
+    active: true
+    lat: 0.5
+    lng: 1.27
+    owner: "Nami"
+  ) {
+    id
+    name
+    email
+    createdAt
+    updatedAt
+  }
+}

@@ -1,0 +1,38 @@
+query {
+  productSizes(product: 28){
+    id
+    product {
+      id
+      name
+    }
+    name
+    priceWithMarkUp
+  }
+}
+
+query {
+  productSizesPagination(product: 28){
+   count
+   list {
+      id
+      product {
+        id
+        name
+      }
+      name
+      priceWithMarkUp
+    }
+  }
+}
+
+query {
+  productSize(id: 1){
+    id
+    product {
+      id
+      name
+    }
+    name
+    priceWithMarkUp
+  }
+}

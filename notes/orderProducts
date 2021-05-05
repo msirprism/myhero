@@ -1,0 +1,22 @@
+mutation{
+  updateOrderProducts(
+    orderId: 1, 
+    selectedOrderProducts:[
+      {id: 2, newQuantity: 2},
+      {id: 3, newQuantity: 3}
+    ]
+  ){
+    id
+    total
+    finalTotal
+    markUpTotal
+    deliveryFee
+    orderProducts {
+      id
+      price
+      markUpPrice
+      quantity
+      subtotal
+    }
+  }
+}

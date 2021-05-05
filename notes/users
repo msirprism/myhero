@@ -1,0 +1,38 @@
+/*
+Sign-up
+*/
+
+mutation{
+  signup(email: "erza@ft.com" name:"Erza Scarlet" type:CUSTOMER password:"123456"){
+    token
+    user{
+      id
+      name
+    }
+  }
+}
+
+/*
+Log-in
+*/
+
+mutation{
+  login(email:"erza@ft.com" password: "123456"){
+    user {
+      id
+      name
+    }
+    token
+  }
+}
+
+/*
+Change Password
+*/
+
+mutation{
+  changePassword(id: 12 oldPassword: "123456" newPassword:"654321"){
+    id
+    name
+  }
+}

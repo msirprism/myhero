@@ -1,0 +1,33 @@
+mutation {
+  createRiderReview(
+    order: 1,
+    user: 348,
+    merchant: 137
+    hero: 1,
+    rating: 5
+    review: "Good!"
+  ) {
+    id
+    rating
+    review
+  }
+}
+
+query {
+  riderReviewsPagination {
+    list {
+      id
+      customer {
+        name
+      }
+      hero {
+        user {
+          name
+        }
+      }
+      rating
+      review
+    }
+    count
+  }
+}

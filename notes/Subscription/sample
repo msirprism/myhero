@@ -1,0 +1,17 @@
+/*To see how real-time subscription works, you need to open 2 tabs*/
+
+/*Call this in first tab and it will listen*/
+subscription {
+  newTag {
+    id
+    name
+  }
+}
+
+/*Call this in second tab and look at the first tab. You will see the data in first tab*/
+mutation {
+  createTag(name: "Tag X"){
+    id
+    name
+  }
+}

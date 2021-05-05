@@ -1,0 +1,71 @@
+/*
+Create hero + user
+*/
+mutation{
+  createHeroUser(
+    name: "Obito", 
+    email: "obito@naruto.com" 
+    password: "123456" 
+    contactNumber: "820-31-89" 
+    active: true 
+    sex: M 
+    birthday: "1992-05-28"
+  ) {
+    id
+    user {
+      id
+      name
+      type
+      child_id
+    }
+    sex
+    birthday
+    amount
+    earnings
+    collectibles
+    paidCollectibles
+    remainingCollectibles
+    createdAt
+    updatedAt
+  }
+}
+
+/*Update Hero + user */
+mutation {
+  updateHeroUser(
+    userID: 3 
+    name: "Monkey D. Garp" 
+    contactNumber: "12345678933" 
+    email: "garp@onepiece.com"
+    sex:M
+    birthday: "1920-06-20"
+    city: "Konoha"
+    nbiNo: "123.456.789"
+    plateNo: "ABC-123"
+    licenseNo: "TH-2020-123456"
+  ) {
+    id
+    user {
+      id
+      name
+    }
+    sex
+    plateNo
+    licenseNo
+  }
+}
+
+mutation {
+  setHeroAvailability(id: 1, isAvailable: true) {
+    id
+    isAvailable
+    updatedAt
+  }
+}
+
+mutation {
+  setHeroOnline(id: 1) {
+    id
+    updatedAt
+  }
+}

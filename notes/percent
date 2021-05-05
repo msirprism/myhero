@@ -1,0 +1,18 @@
+query {
+  percent(id: 1) {
+    ramonSemicolonShare
+    ramonMyHeroEarning
+    felixSemicolonShare
+    felixMyHeroEarning
+    vinceSemicolonShare
+    vinceMyHeroEarning
+    ramonSemicolonSharePercent
+    ramonMyHeroEarningPercent
+    felixSemicolonSharePercent
+    felixMyHeroEarningPercent
+    vinceSemicolonSharePercent
+    vinceMyHeroEarningPercent
+    myHeroAssetSemicolonSharePercent
+    myHeroAssetMyHeroEarningPercent
+  }
+}
